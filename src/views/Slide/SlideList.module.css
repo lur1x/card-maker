@@ -1,0 +1,43 @@
+.slideList {
+    /* Блочная модель */
+    padding: 1rem;
+
+    /* Оформление */
+    background-color: #f2f8ff;
+
+    /* Анимация */
+    overflow-y: auto;
+}
+
+.slideList::-webkit-scrollbar {
+    /* Блочная модель */
+    width: 10px;
+
+    /* Оформление */
+    background-color: #f9f9fd;
+}
+
+.slideList::-webkit-scrollbar-thumb {
+    /* Оформление */
+    background-color: #ced6d6;
+    border-radius: 10px;
+}
+
+.slideList::-webkit-scrollbar-track {
+    /* Оформление */
+    border-radius: 10px;
+    background-color: #f2f8ff;
+
+    /* Разное */
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
+}
+.item {
+    /* Блочная модель */
+    margin: 10px;
+
+    /* Оформление */
+    border-radius: 10px;
+
+    /* Анимация */
+    pointer-events: none;
+}

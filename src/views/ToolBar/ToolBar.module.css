@@ -1,0 +1,68 @@
+.toolbar {
+    /* Блочная модель */
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px 15px;
+
+    /* Оформление */
+    background-color: #f2f8ff;
+    border: 2px solid silver;
+}
+.button {
+    /* Блочная модель */
+    align-items: center;
+    display: flex;
+    margin-right: 14px;
+    padding-inline: 10px;
+
+    /* Типографика */
+    font-size: 14px;
+    font-family: 'Arial';
+    font-weight: 600;
+
+    /* Оформление */
+    background-color: #ffffff;
+    border-color: #dadce0;
+    border-radius: 4px;
+    color: #4c4c50;
+
+    /* Анимация */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+.changeBackground {
+    /* Блочная модель*/
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+.colorpicker {
+    /* Блочная модель*/
+    margin-left: 5px;
+    padding: 0;
+    height: 20px;
+    width: 20px;
+
+    /* Оформление */
+    background-color: transparent;
+    border-radius: 4px;
+    box-shadow: none;
+    outline: none;
+
+    /* Анимация */
+    cursor: pointer;
+}
+.changeBackground select,
+.changeBackground input[type="color"] {
+    margin-right: 10px;
+    width: 40px;
+}
+.changeBackground input[type="file"] {
+    margin-right: 5px;
+}
