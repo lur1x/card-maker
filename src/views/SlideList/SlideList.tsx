@@ -1,10 +1,11 @@
-import { SlidesCollection } from "../../store/PresentationTypes";
-import { SlideO } from "./Slide";
+import { SlidesCollection } from "../../store/PresentationTypes.ts";
+import { SlideO } from "../Slide/Slide.tsx";
 import styles from './SlideList.module.css'
-import { SelectionType } from "../../store/EditorType";
-import { dispatch } from "../../store/editor";
-import { setSelection } from "../../store/setSelection";
-import { useSlideTransition } from "./useSlideTransition";
+import { SelectionType } from "../../store/EditorType.ts";
+//import { dispatch } from "../../store/editor";
+//import { setSelection } from "../../store/redux/setSelection.ts";
+import { useSlideTransition } from "../hooks/useSlideTransition.ts";
+import { useAppActions } from "../hooks/useAppActions.ts";
 
 const Slide_Preview_Scale = 0.2
 
@@ -23,9 +24,13 @@ export function SlidesList({slides, selection}: SlideListProps)
         handleDragEnd
     } = useSlideTransition();
 
-    function onSlideClick(slideId: string)
-    {
-        dispatch(setSelection, {selectedSlideId: slideId})
+    const {setSelection} = useAppActions()
+
+    function onSlideClick(slideId: string) {
+        setSelection({
+            selectedSlideId: slideId,
+            selectedObjectId: '',
+        })
     }
 
     return (

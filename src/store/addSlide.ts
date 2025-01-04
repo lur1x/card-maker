@@ -1,9 +1,10 @@
 import { EditorType } from "./EditorType";
 import { Slide } from "./PresentationTypes";
+import { uuidV4 } from "./utils/uuidV4";
 
 export function addSlide(editor: EditorType): EditorType {
     const newSlide: Slide = {
-        id: generateRandomId(6),
+        id: uuidV4(),
         elements: [],
         background: {type: 'solid', color: '#FFFFFF'}
     }
@@ -20,14 +21,4 @@ export function addSlide(editor: EditorType): EditorType {
         },
         selection: editor.selection
     };
-}
-function generateRandomId(length: number = 10): string {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    for (let i = 0; i < length; i++)
-    {
-        const randomIndex = Math.floor(Math.random() * characters.length);
-        result += characters[randomIndex]
-    }
-    return result;
 }

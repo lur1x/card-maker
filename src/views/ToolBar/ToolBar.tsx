@@ -1,13 +1,12 @@
 import styles from './ToolBar.module.css';
 import { dispatch } from '../../store/editor';
-import { addSlide } from '../../store/addSlide';
 import { removeSlide } from '../../store/removeSlide';
 import { addTextToSlide } from '../../store/addTextToSlide';
 import { addImageToSlide } from '../../store/addImageToSlide';
 import { removeElementFromSlide } from '../../store/removeElementFromSlide';
 import { changeSlideColor } from '../../store/changeSlideColor';
 import { changeSlideBgrImage } from '../../store/changeSlideBgrImage';
-
+import { useAppActions } from '../hooks/useAppActions.ts';
 import { exportPresentation } from '../../store/localStorage/fileUtils';
 import { importPresentation } from '../../store/localStorage/fileUtils';
 import { getEditor } from '../../store/editor';
@@ -15,9 +14,10 @@ import { useRef } from 'react';
 
 export function ToolBar()
 {
-    function onAddSlide() {
-        dispatch(addSlide);
-    }
+   // function onAddSlide() {
+     //   dispatch(addSlide);
+    //}
+    const {addSlide} = useAppActions()
 
     function onRemoveSlide() {
         dispatch(removeSlide);
@@ -91,7 +91,7 @@ export function ToolBar()
 
     return (
         <div className={styles.toolbar}>
-            <button className={styles.button} onClick={onAddSlide}>
+            <button className={styles.button} onClick={addSlide}>
                 Добавить Слайд
             </button>
 

@@ -1,5 +1,5 @@
-import { Slide } from "../../store/PresentationTypes";
-import { SlideO } from "./Slide";
+import { Slide } from "../../store/PresentationTypes.ts";
+import { SlideO } from "../Slide/Slide.tsx";
 import styles from './WorkSpace.module.css'
 
 type WorkspaceProps = {

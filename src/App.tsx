@@ -1,26 +1,27 @@
 import styles from './App.module.css'
-import { SlidesList } from './views/Slide/SlideList.tsx'
+import { SlidesList } from './views/SlideList/SlideList.tsx'
 import { TopPanel } from './views/TopPanel/TopPanel'
-import { ToolBar } from './views/ToolBar/ToolBar'
-import { Workspace } from './views/Slide/WorkSpace.tsx'
-import { EditorType } from './store/EditorType'
+import { Workspace } from './views/WorkSpace/WorkSpace.tsx'
+import { useAppSelector } from './views/hooks/useAppSelector.ts';
+import { Slide } from './store/PresentationTypes.ts';
+import { ToolBar } from "./views/ToolBar/ToolBar.tsx";
 
-type AppProps = {
-    editor: EditorType,
-}
+function App() {
+    const editor = useAppSelector(state => state)
 
-function App({editor}: AppProps) {
+    const slides = editor.presentation.slides
+    const selection = editor.selection
+    const selectedSlide: Slide = slides.find(slide => slide.id === selection?.selectedSlideId) || slides[0]
+
     return (
-        <div className='App'>
+        <>
             <TopPanel title={editor.presentation.title}></TopPanel>
             <ToolBar></ToolBar>
             <div className={styles.container}>
-                <SlidesList slides={editor.presentation.slides} selection={editor.selection}></SlidesList>
-                <Workspace slide={editor.presentation.slides.find(SlideO => SlideO.id == editor.selection.selectedSlideId) || null}
-                           selectedObjectId={editor.selection.selectedObjectId}>
-                </Workspace>
+                <SlidesList slides={slides} selection={selection}></SlidesList>
+                <Workspace slide={selectedSlide} selectedObjectId={selection?.selectedObjectId || null}></Workspace>
             </div>
-        </div>
+        </>
     )
 }
 

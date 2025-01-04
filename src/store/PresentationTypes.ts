@@ -2,14 +2,19 @@ export type Presentation = {
   title: string,
   slides: SlidesCollection,
 }
+
 export type SlidesCollection = Array<Slide>;
+
 export type Slide = {
   id: string,
   elements: Array<SlideElement>,
   background: Background,
 }
+
 export type SlideElement = SlideText | SlideImage;
+
 export type Background = SolidBackground | ImageBackground;
+
 export type SlideObj = { // базовый тип
   id: string,
   pos: {
@@ -31,6 +36,7 @@ export type ImageBackground = {
   type: 'image',
   src: string;
 }
+
 export type SolidBackground = {
   type: 'solid',
   color: string;

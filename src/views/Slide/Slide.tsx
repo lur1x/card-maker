@@ -4,9 +4,9 @@ import { ImageObject } from "./ImageObject";
 import styles from './Slide.module.css'
 import { CSSProperties } from "react";
 import { dispatch } from "../../store/editor";
-import { setSelection } from "../../store/setSelection";
-import { useDragAndDrop } from "./useDragAndDrop";
-import { useResizeElement } from "./useResizeElements";
+import { setSelection } from "../../store/redux/setSelection.ts";
+import { useDragAndDrop } from "../hooks/useDragAndDrop.ts";
+import { useResizeElement } from "../hooks/useResizeElements.ts";
 
 const Slide_Width = 935;
 const Slide_Height = 525;

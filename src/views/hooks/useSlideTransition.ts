@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { dispatch } from "../../store/editor";
-import { changeSlidePosition } from "../../store/moveSlideOnList";
-import { EditorType } from "../../store/EditorType";
+import { dispatch } from "../../store/editor.ts";
+import { changeSlidePosition } from "../../store/moveSlideOnList.ts";
+import { EditorType } from "../../store/EditorType.ts";
 
 export function useSlideTransition() {
     const [draggingSlide, setDraggingSlide] = useState<string | null>(null);
