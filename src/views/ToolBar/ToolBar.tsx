@@ -1,6 +1,5 @@
 import styles from './ToolBar.module.css';
 import { dispatch } from '../../store/editor';
-import { removeSlide } from '../../store/removeSlide';
 import { addTextToSlide } from '../../store/addTextToSlide';
 import { addImageToSlide } from '../../store/addImageToSlide';
 import { removeElementFromSlide } from '../../store/removeElementFromSlide';
@@ -18,10 +17,10 @@ export function ToolBar()
      //   dispatch(addSlide);
     //}
     const {addSlide} = useAppActions()
-
-    function onRemoveSlide() {
-        dispatch(removeSlide);
-    }
+    const {removeSlide} = useAppActions()
+    //function onRemoveSlide() {
+      //  dispatch(removeSlide);
+    //}
 
     function onAddText() {
         dispatch(addTextToSlide);
@@ -95,7 +94,7 @@ export function ToolBar()
                 Добавить Слайд
             </button>
 
-            <button className={styles.button} onClick={onRemoveSlide}>
+            <button className={styles.button} onClick={removeSlide}>
                 Удалить Слайд
             </button>
 
