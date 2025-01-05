@@ -1,21 +1,21 @@
-import { SlidesCollection } from "../../store/PresentationTypes.ts";
-import { SlideO } from "../Slide/Slide.tsx";
+//import { SlidesCollection } from "../../store/PresentationTypes.ts";
+import { Slide } from "../Slide/Slide.tsx";
 import styles from './SlideList.module.css'
-import { SelectionType } from "../../store/EditorType.ts";
+//import { SelectionType } from "../../store/EditorType.ts";
 //import { dispatch } from "../../store/editor";
 //import { setSelection } from "../../store/redux/setSelection.ts";
 import { useSlideTransition } from "../hooks/useSlideTransition.ts";
 import { useAppActions } from "../hooks/useAppActions.ts";
+import { useAppSelector } from "../hooks/useAppSelector.ts";
 
 const Slide_Preview_Scale = 0.2
 
-type SlideListProps = {
-    slides: SlidesCollection,
-    selection: SelectionType,
-}
 
-export function SlidesList({slides, selection}: SlideListProps)
-{
+export function SlidesList() {
+    const editor = useAppSelector((editor => editor))
+    const slides = editor.presentation.slides
+    const selection = editor.selection
+
     const {
         draggingSlide,
         dragOverSlide,
@@ -43,14 +43,14 @@ export function SlidesList({slides, selection}: SlideListProps)
                      onDragEnd={handleDragEnd}
                      onClick={() => onSlideClick(slide.id)}
                      className={draggingSlide === slide.id ? 'dragging' : (dragOverSlide === slide.id ? 'dragover' : '')}>
-                    <SlideO
+                    <Slide
                         slide={slide}
                         scale={Slide_Preview_Scale}
                         isSelected={selection ? slide.id === selection.selectedSlideId : false}
                         className={styles.item}
                         selectedObjectId={selection?.selectedObjectId}
                         showResizeHandles={false}
-                    ></SlideO>
+                    ></Slide>
                 </div>
             )}
         </div>

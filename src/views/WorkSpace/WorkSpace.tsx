@@ -1,17 +1,19 @@
-import { Slide } from "../../store/PresentationTypes.ts";
-import { SlideO } from "../Slide/Slide.tsx";
-import styles from './WorkSpace.module.css'
+import { SlideType } from "../../store/PresentationTypes.ts"; // Исправленный импорт
+import { Slide } from "../Slide/Slide.tsx";
+import { useAppSelector } from "../hooks/useAppSelector.ts";
+import styles from './WorkSpace.module.css';
 
-type WorkspaceProps = {
-    slide: Slide | null,
-    selectedObjectId: string | null
-}
-function Workspace({slide, selectedObjectId}: WorkspaceProps) {
+function Workspace() {
+    const editor = useAppSelector((editor) => editor);
+    const slides = editor.presentation.slides;
+    const selection = editor.selection;
+    const selectedSlide: SlideType = slides.find(slide => slide.id === selection?.selectedSlideId) || slides[0];
+
     return (
         <div className={styles.workspace}>
-            <SlideO slide={slide} isSelected={false} className={styles.workspace} selectedObjectId={selectedObjectId}></SlideO>
+            <Slide slide={selectedSlide} selectedObjectId={selection?.selectedObjectId || null} className=""/>
         </div>
-    )
+    );
 }
 export {
     Workspace,

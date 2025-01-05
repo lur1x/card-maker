@@ -1,7 +1,7 @@
-import { Presentation, Slide } from "./PresentationTypes";
+import { Presentation, SlideType } from "./PresentationTypes";
 
 export function changeSlidePosition(presentation: Presentation, slideId: string, newIndex: number): Presentation {
-    function findSlideIndex(slides: Slide[], slideId: string): number {
+    function findSlideIndex(slides: SlideType[], slideId: string): number {
         for (let i = 0; i < slides.length; i++) {
             if (slides[i].id === slideId) {
                 return i;

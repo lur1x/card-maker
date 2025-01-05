@@ -1,6 +1,6 @@
-import { Slide } from "./PresentationTypes";
+import { SlideType } from "./PresentationTypes";
 
-export function changeTextFontFamily(slide: Slide, elementId: string, newFontFamily: string): Slide {
+export function changeTextFontFamily(slide: SlideType, elementId: string, newFontFamily: string): SlideType {
     return {
         ...slide,
         elements: slide.elements.map(item =>

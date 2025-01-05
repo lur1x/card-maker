@@ -1,5 +1,5 @@
-import { Slide } from "./PresentationTypes";
-export function changeElementSize(slide: Slide, elementId: string, newSize: {width: number, height: number}): Slide {
+import { SlideType } from "./PresentationTypes";
+export function changeElementSize(slide: SlideType, elementId: string, newSize: {width: number, height: number}): SlideType {
     return {
         ...slide,
         elements: slide.elements.map(item =>

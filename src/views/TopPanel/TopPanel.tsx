@@ -2,12 +2,10 @@ import styles from './TopPanel.module.css';
 import { dispatch } from '../../store/editor.ts';
 import { renamePresentationTitle } from '../../store/renamePresentationTitle.ts';
 import * as React from "react";
+import { useAppSelector } from '../hooks/useAppSelector.ts';
 
-interface TopPanelProps {
-    title: string;
-}
-
-function TopPanel({ title }: TopPanelProps) {
+function TopPanel() {
+    const title = useAppSelector((editor => editor.presentation.title))
     const [inputValue, setInputValue] = React.useState(title);
     const inputRef = React.useRef<HTMLInputElement | null>(null);
 

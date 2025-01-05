@@ -1,6 +1,6 @@
-import { Slide } from "./PresentationTypes";
+import { SlideType } from "./PresentationTypes";
 
-export function changeTextContent(slide: Slide, elementId: string, newText: string): Slide {
+export function changeTextContent(slide: SlideType, elementId: string, newText: string): SlideType {
     return {
         ...slide,
         elements: slide.elements.map(item =>

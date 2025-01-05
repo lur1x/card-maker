@@ -1,9 +1,9 @@
-import {Presentation, Slide} from "./PresentationTypes.ts";
+import {Presentation, SlideType} from "./PresentationTypes.ts";
 import {EditorType} from "./EditorType.ts";
 import {img1} from "./img1.ts";
 import {imgBgr} from "./background.ts";
 
-const slide1: Slide = {
+const slide1: SlideType = {
     id: 'slide-1',
     elements: [
         {
@@ -49,7 +49,7 @@ const slide1: Slide = {
     ],
     background: {type: 'solid', color: '#007799'},
 }
-const slide2: Slide = {
+const slide2: SlideType = {
     id: 'slide-2',
     elements: [
         {
@@ -71,7 +71,7 @@ const presentation: Presentation = {
     ]
 }
 
-const editor: EditorType = {
+const defaultEditor: EditorType = {
     presentation,
     selection: {
         selectedSlideId: null,
@@ -80,5 +80,5 @@ const editor: EditorType = {
 }
 
 export {
-    editor,
+    defaultEditor,
 }

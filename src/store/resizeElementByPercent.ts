@@ -1,9 +1,9 @@
-import { Slide } from "./PresentationTypes";
+import { SlideType } from "./PresentationTypes";
 
 export function resizeElementByPercent(
-    slide: Slide, elementId: string,
+    slide: SlideType, elementId: string,
     newWidth: number, newHeight: number
-): Slide {
+): SlideType {
     return {
         ...slide,
         elements: slide.elements.map((img) => {

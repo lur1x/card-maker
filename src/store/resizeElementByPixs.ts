@@ -1,9 +1,9 @@
-import { Slide } from "./PresentationTypes";
+import { SlideType } from "./PresentationTypes";
 
 export function resizeElementByPixs(
-    slide: Slide, elementId: string,
+    slide: SlideType, elementId: string,
     newSize: number
-): Slide {
+): SlideType {
     return {
         ...slide,
         elements: slide.elements.map((txt) => {

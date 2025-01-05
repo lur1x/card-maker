@@ -1,7 +1,7 @@
-import { editor } from "./data.ts"
+import { defaultEditor } from "./data.ts"
 import { loadFromLocalStorage, saveToLocalStorage } from "./localStorage/localStorageUtils.ts";
 
-let _editor = editor
+let _editor = defaultEditor
 let _handler: Function | null = null//(() => void) | null
 
 function getEditor() {

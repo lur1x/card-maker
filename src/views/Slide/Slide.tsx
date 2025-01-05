@@ -1,4 +1,4 @@
-import { Slide } from "../../store/PresentationTypes";
+import { SlideType } from "../../store/PresentationTypes";
 import { TextObject } from "./TextObject";
 import { ImageObject } from "./ImageObject";
 import styles from './Slide.module.css'
@@ -7,21 +7,21 @@ import { dispatch } from "../../store/editor";
 import { setSelection } from "../../store/redux/setSelection.ts";
 import { useDragAndDrop } from "../hooks/useDragAndDrop.ts";
 import { useResizeElement } from "../hooks/useResizeElements.ts";
+import { useAppSelector } from "../hooks/useAppSelector.ts";
 
 const Slide_Width = 935;
 const Slide_Height = 525;
 
 type SlideProps = {
-    slide: Slide | null,
+    slide: SlideType | null,
     scale?: number,
-    isSelected: boolean,
     className: string,
     selectedObjectId: string | null,
     showResizeHandles?: boolean;
 }
 
-export function SlideO({slide, scale = 1, isSelected, className, selectedObjectId, showResizeHandles = true}: SlideProps)
-{
+export function Slide({slide, scale = 1,  className, selectedObjectId, showResizeHandles = true}: SlideProps) {
+    const selection = useAppSelector((editor => editor.selection))
     const { isDragging, handleElementMD, handleElementMM, handleElementMU} = useDragAndDrop({ slideId: slide?.id ?? ''});
     const { isResizing, handleResizeMD, handleResizeMM, handleResizeMU} = useResizeElement({ slideId: slide?.id ?? ''});
 
@@ -46,7 +46,7 @@ export function SlideO({slide, scale = 1, isSelected, className, selectedObjectI
         zIndex: 1,
     }
 
-    if (isSelected) {
+    if (selection?.selectedObjectId === slide.id) {
         slideStyles.border = '3px solid #0b57d0'
     }
 

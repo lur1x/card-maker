@@ -1,9 +1,9 @@
-import { Slide } from "./PresentationTypes";
+import { SlideType } from "./PresentationTypes";
 
 export function moveText(
-    slide: Slide, elementId: string,
+    slide: SlideType, elementId: string,
     newX: number, newY: number
-): Slide {
+): SlideType {
     return {
         ...slide,
         elements: slide.elements.map((txt) => {

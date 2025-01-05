@@ -3,9 +3,9 @@ export type Presentation = {
   slides: SlidesCollection,
 }
 
-export type SlidesCollection = Array<Slide>;
+export type SlidesCollection = Array<SlideType>;
 
-export type Slide = {
+export type SlideType = {
   id: string,
   elements: Array<SlideElement>,
   background: Background,

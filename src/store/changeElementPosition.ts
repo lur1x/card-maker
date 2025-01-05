@@ -1,5 +1,5 @@
-import { Slide } from "./PresentationTypes";
-export function changeElementPosition(slide: Slide, elementId: string, newPosition: {ox: number, oy: number}): Slide {
+import { SlideType } from "./PresentationTypes";
+export function changeElementPosition(slide: SlideType, elementId: string, newPosition: {ox: number, oy: number}): SlideType {
     return {
         ...slide,
         elements: slide.elements.map(item =>

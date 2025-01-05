@@ -1,6 +1,5 @@
 import styles from './ToolBar.module.css';
 import { dispatch } from '../../store/editor';
-import { removeSlide } from '../../store/removeSlide';
 import { addTextToSlide } from '../../store/addTextToSlide';
 import { addImageToSlide } from '../../store/addImageToSlide';
 import { removeElementFromSlide } from '../../store/removeElementFromSlide';
@@ -11,17 +10,31 @@ import { exportPresentation } from '../../store/localStorage/fileUtils';
 import { importPresentation } from '../../store/localStorage/fileUtils';
 import { getEditor } from '../../store/editor';
 import { useRef } from 'react';
+import { HistoryContext } from '../hooks/historyContenx.ts';
+import * as React from "react";
 
 export function ToolBar()
 {
    // function onAddSlide() {
      //   dispatch(addSlide);
     //}
-    const {addSlide} = useAppActions()
+    const {addSlide, removeSlide, setEditor} = useAppActions()
+    const history = React.useContext(HistoryContext)
 
-    function onRemoveSlide() {
-        dispatch(removeSlide);
+    function onUndo() {
+        const newEditor = history.undo()
+        if (newEditor) {
+            setEditor(newEditor)
+        }
     }
+
+    function onRedo() {
+        const newEditor = history.redo()
+        if (newEditor) {
+            setEditor(newEditor)
+        }
+    }
+
 
     function onAddText() {
         dispatch(addTextToSlide);
@@ -95,22 +108,27 @@ export function ToolBar()
                 Добавить Слайд
             </button>
 
-            <button className={styles.button} onClick={onRemoveSlide}>
+            <button className={styles.button} onClick={removeSlide}>
                 Удалить Слайд
             </button>
-
+            <button className={styles.button} onClick={onRedo}>
+                Redo
+            </button>
+            <button className={styles.button} onClick={onUndo}>
+                Undo
+            </button>
             <button className={styles.button} onClick={onAddText}>
                 Добавить текст
             </button>
 
-            <button className={styles.button} >
+            <button className={styles.button}>
                 <input
                     type="file"
                     id="imageUploader"
                     accept='image/*'
                     onChange={onAddImage}
                     className={styles.imageUploader}
-                    style={{ display: 'none' }}
+                    style={{display: 'none'}}
                     ref={imageInputRef}
                 />
                 <span onClick={() => imageInputRef.current?.click()}>Добавить картинку</span>
@@ -127,8 +145,11 @@ export function ToolBar()
                         className={styles.colorpicker}
                         type={'color'}
                         value={'#FF0000'}
-                        onInput={() => {}}
-                        onChange={value => { dispatch(changeSlideColor, { type: 'solid', color: value.target.value }) }}
+                        onInput={() => {
+                        }}
+                        onChange={value => {
+                            dispatch(changeSlideColor, {type: 'solid', color: value.target.value})
+                        }}
                     ></input>
                 </button>
             </div>
@@ -140,7 +161,7 @@ export function ToolBar()
                     accept='image/*'
                     onChange={onChangeBgrImage}
                     className={styles.imageUploader}
-                    style={{ display: 'none' }}
+                    style={{display: 'none'}}
                     ref={bgrImageInputRef}
                 />
                 Фон слайда
@@ -164,8 +185,9 @@ export function ToolBar()
                     accept='.json'
                     onChange={onImportPresentachion}
                     className={styles.fileInput}
-                    style={{ display: 'none' }}/>
+                    style={{display: 'none'}}/>
             </div>
+
         </div>
     )
 }
