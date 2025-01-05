@@ -5,6 +5,7 @@ import {removeSlide} from "../removeSlide.ts";
 import { setSelection } from "./setSelection.ts";
 import { ActionType, EditorAction } from "./actions";
 import {defaultEditor} from "../data.ts";
+import { changeSlidePosition } from "../moveSlideOnList.ts";
 
 function editorReducer(editor: EditorType = defaultEditor, action: EditorAction): EditorType {
     switch (action.type) {
@@ -16,6 +17,8 @@ function editorReducer(editor: EditorType = defaultEditor, action: EditorAction)
             return setSelection(editor, action)
         case ActionType.SET_EDITOR:
             return action.payload
+        case ActionType.MOVE_SLIDE:
+            return changeSlidePosition(action.payload.editor, action.payload.slideId, action.payload.targetSlideId);
         default:
             return editor
     }

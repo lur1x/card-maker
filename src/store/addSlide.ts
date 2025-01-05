@@ -1,5 +1,38 @@
 import { EditorType } from "./EditorType";
 import { SlideType } from "./PresentationTypes";
+import { createNewSlide } from "./redux/createNewSlide";
+
+function addSlide(editor: EditorType): EditorType {
+    const selection = editor.selection
+    const newSlide = createNewSlide()
+    const slides: SlideType[] = []
+    if (selection) {
+        for (const slide of editor.presentation.slides) {
+            slides.push(slide)
+            if (slide.id === selection.selectedSlideId) {
+                slides.push(newSlide)
+            }
+        }
+    }
+    else {
+        slides.push(newSlide)
+    }
+    return {
+        presentation: {
+            ...editor.presentation,
+            slides: slides,
+        },
+        selection: {
+            selectedSlideId: newSlide.id,
+        }
+    }
+}
+
+export {
+    addSlide,
+}
+/*import { EditorType } from "./EditorType";
+import { SlideType } from "./PresentationTypes";
 import { uuidV4 } from "./utils/uuidV4";
 
 export function addSlide(editor: EditorType): EditorType {
@@ -21,4 +54,4 @@ export function addSlide(editor: EditorType): EditorType {
         },
         selection: editor.selection
     };
-}
+}*/

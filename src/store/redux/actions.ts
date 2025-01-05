@@ -5,6 +5,8 @@ enum ActionType {
     REMOVE_SLIDE = 'removeSlide',
     SET_SELECTION = 'setSelection',
     SET_EDITOR = 'setEditor',
+    DELETE_OBJECT = 'deleteObject',
+    MOVE_SLIDE = 'moveSlide',
 }
 type AddSlideAction = {
     type: ActionType.ADD_SLIDE,
@@ -21,7 +23,21 @@ type SetEditorAction = {
     type: ActionType.SET_EDITOR,
     payload: EditorType,
 }
-type EditorAction = AddSlideAction | RemoveSlideAction | SetSelectionAction | SetEditorAction
+
+type DeleteObjectAction = {
+    type: ActionType.DELETE_OBJECT
+}
+
+type MoveSlideAction = {
+    type: ActionType.MOVE_SLIDE;
+    payload: {
+        editor: EditorType;
+        slideId: string;
+        targetSlideId: string;
+    };
+};
+
+type EditorAction = AddSlideAction | RemoveSlideAction | SetSelectionAction | SetEditorAction | DeleteObjectAction | MoveSlideAction
 export {
     ActionType,
     type SetSelectionAction,
