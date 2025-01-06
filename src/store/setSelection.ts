@@ -1,5 +1,5 @@
-import {EditorType} from "../EditorType.ts";
-import { SetSelectionAction } from "./actions.ts";
+import { EditorType } from "./EditorType.ts";
+import { SetSelectionAction } from "./redux/actions.ts";
 
 function setSelection(editor: EditorType, action: SetSelectionAction): EditorType {
     return {
@@ -7,6 +7,7 @@ function setSelection(editor: EditorType, action: SetSelectionAction): EditorTyp
         selection: action.payload,
     }
 }
+
 export {
     setSelection
 }

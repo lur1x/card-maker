@@ -1,12 +1,12 @@
 import { EditorType } from "./EditorType";
-import { ImageBackground } from "./PresentationTypes";
-import {imgBgr} from "./background.ts";
+import {Background} from "./PresentationTypes";
+//import {imgBgr} from "./background.ts";
 
-export function changeSlideBgrImage(editor: EditorType): EditorType {
-    const newBackground: ImageBackground = {
-        type: 'image',
-        src: imgBgr,
-    };
+export function changeSlideBgrImage(editor: EditorType, payload: Background): EditorType {
+    //const newBackground: ImageBackground = {
+        //type: 'image',
+        //src: imgBgr,
+    //};
     if (!editor.selection || !editor.selection.selectedSlideId) {
         return editor;
     }
@@ -14,7 +14,7 @@ export function changeSlideBgrImage(editor: EditorType): EditorType {
         if (SlideO.id === editor.selection.selectedSlideId) {
             return {
                 ...SlideO,
-                background: newBackground,
+                background: payload,
             };
         }
         return SlideO;

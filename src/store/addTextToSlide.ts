@@ -1,6 +1,7 @@
 import { EditorType } from "./EditorType";
 import { SlideText } from "./PresentationTypes";
-import { generateRandomId } from "./generateRandomId";
+import {uuidV4} from "./utils/uuidV4.ts";
+
 
 export function addTextToSlide(editor: EditorType): EditorType {
     const newText = "Введите текст";
@@ -8,7 +9,7 @@ export function addTextToSlide(editor: EditorType): EditorType {
         return editor;
     }
     const newTextObject: SlideText = {
-        id: generateRandomId(6),
+        id: uuidV4(),
         pos: {ox: 300, oy: 400},
         size: {width: 200, height: 30},
         type: 'SlideText',

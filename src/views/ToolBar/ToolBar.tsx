@@ -1,36 +1,40 @@
+
 import styles from './ToolBar.module.css';
 import { dispatch } from '../../store/editor';
-import { addTextToSlide } from '../../store/addTextToSlide';
-import { addImageToSlide } from '../../store/addImageToSlide';
 import { removeElementFromSlide } from '../../store/removeElementFromSlide';
-import { changeSlideColor } from '../../store/changeSlideColor';
-import { changeSlideBgrImage } from '../../store/changeSlideBgrImage';
 import { useAppActions } from '../hooks/useAppActions.ts';
 import { exportPresentation } from '../../store/localStorage/fileUtils';
 import { importPresentation } from '../../store/localStorage/fileUtils';
 import { getEditor } from '../../store/editor';
-import { useRef } from 'react';
+import { useRef, useState} from 'react';
 
 export function ToolBar()
 {
    // function onAddSlide() {
      //   dispatch(addSlide);
     //}
-    const {addSlide} = useAppActions()
-    const {removeSlide} = useAppActions()
+
+    const [backgroundColor, setBackgroundColor] = useState('#ffffff'); // State for color picker
+
+    const { addSlide } = useAppActions()
+    const { removeSlide } = useAppActions()
+    const { addTextToSlide } = useAppActions()
+    const { addImageToSlide } = useAppActions()
+    const { changeSlideBackground } = useAppActions()
+    const { changeSlideBgrImage } = useAppActions()
     //function onRemoveSlide() {
       //  dispatch(removeSlide);
     //}
 
-    function onAddText() {
-        dispatch(addTextToSlide);
-    }
+    //function onAddText() {
+      //  dispatch(addTextToSlide);
+    //}
 
     function onRemoveElement() {
         dispatch(removeElementFromSlide);
     }
 
-    function onAddImage(event: React.ChangeEvent<HTMLInputElement>) {
+    /*function onAddImage(event: React.ChangeEvent<HTMLInputElement>) {
         const file = event.target.files?.[0];
 
         if (file) {
@@ -43,14 +47,19 @@ export function ToolBar()
 
             reader.readAsDataURL(file);
         }
-    }
+    }*/
 
-    function onChangeSlideColor() {
-        dispatch(changeSlideColor, {
-            type: 'solid',
-            color: '#FF0000',
-        });
-    }
+    //function onChangeSlideColor() {
+      //  dispatch(changeSlideColor, {
+        //    type: 'solid',
+            //color: '#FF0000',
+        //});
+   // }
+
+    const OnSlideBackgroundChange = (color: string) => {
+        changeSlideBackground({ type: 'solid', color });
+        setBackgroundColor(color); // Update color picker state
+    };
 
     function onExportPresentachion() {
         const editor = getEditor();
@@ -73,7 +82,7 @@ export function ToolBar()
 
     const imageInputRef = useRef<HTMLInputElement | null>(null);
     const bgrImageInputRef = useRef<HTMLInputElement | null>(null);
-    function onChangeBgrImage(event: React.ChangeEvent<HTMLInputElement>) {
+    /*function onChangeBgrImage(event: React.ChangeEvent<HTMLInputElement>) {
         const file = event.target.files?.[0];
 
         if (file) {
@@ -87,7 +96,17 @@ export function ToolBar()
             reader.readAsDataURL(file);
         }
     }
-
+    */
+    const OnChangeSlideBgrImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                changeSlideBgrImage({ type: 'image', src: reader.result as string });
+            };
+            reader.readAsDataURL(file);
+        }
+    };
     return (
         <div className={styles.toolbar}>
             <button className={styles.button} onClick={addSlide}>
@@ -98,7 +117,7 @@ export function ToolBar()
                 Удалить Слайд
             </button>
 
-            <button className={styles.button} onClick={onAddText}>
+            <button className={styles.button} onClick={addTextToSlide}>
                 Добавить текст
             </button>
 
@@ -107,7 +126,7 @@ export function ToolBar()
                     type="file"
                     id="imageUploader"
                     accept='image/*'
-                    onChange={onAddImage}
+                    onChange={addImageToSlide}
                     className={styles.imageUploader}
                     style={{ display: 'none' }}
                     ref={imageInputRef}
@@ -120,15 +139,14 @@ export function ToolBar()
             </button>
 
             <div className={styles.changeSlideColor}>
-                <button className={styles.button} onClick={onChangeSlideColor}>
+                <button className={styles.button} >
                     Поменять Фон
                     <input
                         className={styles.colorpicker}
                         type={'color'}
-                        value={'#FF0000'}
+                        value={backgroundColor}
                         onInput={() => {}}
-                        onChange={value => { dispatch(changeSlideColor, { type: 'solid', color: value.target.value }) }}
-                    ></input>
+                        onChange={(e) => OnSlideBackgroundChange(e.target.value)}                    ></input>
                 </button>
             </div>
 
@@ -137,7 +155,7 @@ export function ToolBar()
                     type="file"
                     id="imageUploader"
                     accept='image/*'
-                    onChange={onChangeBgrImage}
+                    onChange={OnChangeSlideBgrImage}
                     className={styles.imageUploader}
                     style={{ display: 'none' }}
                     ref={bgrImageInputRef}

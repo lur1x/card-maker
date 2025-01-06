@@ -1,6 +1,6 @@
 import { EditorType } from "./EditorType";
 import { SlideImage } from "./PresentationTypes";
-import { generateRandomId } from "./generateRandomId";
+import {uuidV4} from "./utils/uuidV4.ts"
 
 
 export function addImageToSlide(editor: EditorType): EditorType {
@@ -10,7 +10,7 @@ export function addImageToSlide(editor: EditorType): EditorType {
     }
 
     const newImage: SlideImage = {
-        id: generateRandomId(6),
+        id: uuidV4(),
         pos: {ox: 400, oy: 300},
         size: {width: 200, height: 150},
         type: 'SlideImage',

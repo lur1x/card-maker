@@ -1,6 +1,7 @@
 import { EditorType } from "./EditorType";
 import { SolidBackground } from "./PresentationTypes";
-export function changeSlideColor(editor: EditorType, payload?: Object): EditorType {
+
+export function changeSlideBackground(editor: EditorType, payload?: Object): EditorType {
 
     if (!editor.selection || !editor.selection.selectedSlideId) {
         return editor;

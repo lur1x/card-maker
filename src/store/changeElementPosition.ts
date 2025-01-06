@@ -1,12 +1,24 @@
-import { Slide } from "./PresentationTypes";
-export function changeElementPosition(slide: Slide, elementId: string, newPosition: {ox: number, oy: number}): Slide {
+import { EditorType } from './EditorType';
+
+function changeElementPosition(editor: EditorType, slideId: string, elementId: string, newX: number, newY: number): EditorType {
     return {
-        ...slide,
-        elements: slide.elements.map(item =>
-            item.id === elementId ? {
-                ...item,
-                pos: newPosition
-            } : item
-        ),
+        ...editor,
+        presentation: {
+            ...editor.presentation,
+            slides: editor.presentation.slides.map(slide =>
+                slide.id === slideId
+                    ? {
+                        ...slide,
+                        elements: slide.elements.map(element =>
+                            element.id === elementId
+                                ? { ...element, pos: { ox: newX, oy: newY } }
+                                : element
+                        ),
+                    }
+                    : slide
+            ),
+        },
     };
 }
+
+export { changeElementPosition };

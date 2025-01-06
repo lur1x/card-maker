@@ -24,3 +24,11 @@
     background-color: #d1e8f3;
 
 }
+.selectedSlide {
+    outline: 3px solid #0b57d0
+}
+
+.slideWrapper {
+    margin: 10px;
+    border-radius: 10px;
+}

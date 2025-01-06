@@ -41,3 +41,13 @@
     /* Анимация */
     pointer-events: none;
 }
+
+.slideWrapper {
+    margin: 10px;
+    border-radius: 10px;
+}
+
+
+.slide {
+    border-radius: inherit;
+}
