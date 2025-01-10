@@ -1,19 +1,21 @@
-import {EditorType} from "../EditorType";
+import {EditorType} from "../editorType.ts";
 import {addSlide} from "../addSlide";
 import {removeSlide} from "../removeSlide.ts";
 import {addTextToSlide} from "../addTextToSlide.ts";
 import {addImageToSlide} from "../addImageToSlide.ts";
+import {removeSlideElement} from "../removeSlideElement.ts";
 import {defaultEditor} from "./defaultEditor";
+//import {editor as defaultEditor} from "../data.ts";
 import {setSelection} from "../setSelection.ts";
 import {ActionType, EditorAction} from "./actions";
-import {changeSlidePosition} from "../moveSlideOnList.ts";
+import {changeSlidePosition} from "../changeSlidePosition.ts";
 import {changeElementPosition} from "../changeElementPosition.ts";
 import {changeSlideBackground} from "../changeSlideBackground.ts";
 import {changeSlideBgrImage} from "../changeSlideBgrImage.ts";
-import {removeElementFromSlide} from "../removeElementFromSlide.ts";
 import {resizeSlideElement} from "../resizeSlideElement.ts";
-import {saveToLocalStorage} from "../localStorage/localStorageUtils.ts";
-import {loadFromLocalStorage} from "../localStorage/localStorageUtils.ts";
+import {saveToLocalStorage, loadFromLocalStorage} from "../localStorage/localStorageUtils.ts";
+
+
 
 function editorReducer(editor: EditorType = defaultEditor, action: EditorAction): EditorType {
     switch (action.type) {
@@ -24,20 +26,20 @@ function editorReducer(editor: EditorType = defaultEditor, action: EditorAction)
         case ActionType.ADD_TEXT:
             return addTextToSlide(editor)
         case ActionType.ADD_IMAGE:
-            return addImageToSlide(editor )
+            return addImageToSlide(editor, action.payload.src, action.payload.width, action.payload.height);
         case ActionType.SET_SELECTION:
             return setSelection(editor, action)
         case ActionType.SET_EDITOR:
             return action.payload
-        case ActionType.DELETE_OBJEKT:
-            return removeElementFromSlide(editor)
+        case ActionType.REMOVE_SLIDE_ELEMENT:
+            return removeSlideElement(editor)
         case ActionType.CHANGE_SLIDE_BACKGROUND:
             return changeSlideBackground(editor, action.payload)
         case ActionType.CHANGE_SLIDE_BACKGROUND_IMAGE:
             return changeSlideBgrImage(editor, action.payload)
-        case ActionType.MOVE_SLIDE:
+        case ActionType.CHANGE_SLIDE_POSITION:
             return changeSlidePosition(action.payload.editor, action.payload.slideId, action.payload.targetSlideId)
-        case ActionType.MOVE_ELEMENT:
+        case ActionType.CHANGE_ELEMENT_POSITION:
             return changeElementPosition(
                 editor,
                 action.payload.slideId,
@@ -45,7 +47,7 @@ function editorReducer(editor: EditorType = defaultEditor, action: EditorAction)
                 action.payload.x,
                 action.payload.y
             );
-        case ActionType.RESIZE_ELEMENT:
+        case ActionType.RESIZE_SLIDE_ELEMENT:
             return resizeSlideElement(
                 editor,
                 action.payload.slideId,
@@ -55,7 +57,6 @@ function editorReducer(editor: EditorType = defaultEditor, action: EditorAction)
                 action.payload.x,
                 action.payload.y
             );
-
         case ActionType.SAVE_PRESENTATION:
             saveToLocalStorage(action.payload);
             return action.payload;
@@ -65,6 +66,7 @@ function editorReducer(editor: EditorType = defaultEditor, action: EditorAction)
             return editor
     }
 }
+
 export {
     editorReducer,
 }

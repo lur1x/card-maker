@@ -1,7 +1,7 @@
 import { uuidV4 } from "../utils/uuidV4";
-import { Slide  } from "./../PresentationTypes";
+import { SlideType  } from "./../PresentationTypes";
 
-function createNewSlide(): Slide {
+function createNewSlide(): SlideType {
     return {
         id: uuidV4(),
         elements: [],

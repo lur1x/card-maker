@@ -1,7 +1,8 @@
-import { editor } from "./data.ts"
+import {defaultEditor as editor} from "./redux/defaultEditor.ts";
 import { loadFromLocalStorage, saveToLocalStorage } from "./localStorage/localStorageUtils.ts";
+import { validateEditor } from "./localStorage/validation.ts";
 
-let _editor = editor
+let _editor = editor || loadFromLocalStorage()
 let _handler: Function | null = null//(() => void) | null
 
 function getEditor() {
@@ -13,7 +14,8 @@ function setEditor(newEditor: any) {
     _editor = newEditor;
     saveToLocalStorage(_editor);
 }
-function dispatch(modifyFn: Function, payload?: Object): void {
+
+function dispatch(modifyFn: Function, payload?: object): void {
 
     const newEditor = modifyFn(_editor, payload)
     setEditor(newEditor)
@@ -25,6 +27,14 @@ function dispatch(modifyFn: Function, payload?: Object): void {
 function addEditorChangeHandler(handler: Function): void {
     _handler = handler
 }
+
+const initState = loadFromLocalStorage();
+if (initState && validateEditor(initState.presentation)) {
+    setEditor(initState)
+} else {
+    console.error('Invalid init state from LS')
+}
+
 
 export {
     getEditor,

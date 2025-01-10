@@ -1,4 +1,4 @@
-import { EditorType } from "./EditorType.ts";
+import { EditorType } from "./editorType.ts";
 import { SetSelectionAction } from "./redux/actions.ts";
 
 function setSelection(editor: EditorType, action: SetSelectionAction): EditorType {

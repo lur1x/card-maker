@@ -1,7 +1,8 @@
 import { validateEditor } from "./validation";
-import { EditorType } from "../EditorType";
+import { EditorType } from "../editorType.ts";
 
 export const exportPresentation = (editor: EditorType) => {
+
     const dataStr = JSON.stringify(editor, null, 2);
     const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
     const exportFileDefaultName = 'presentation.json';
@@ -10,11 +11,15 @@ export const exportPresentation = (editor: EditorType) => {
     linkElem.setAttribute('href', dataUri);
     linkElem.setAttribute('download', exportFileDefaultName);
     linkElem.click();
+
 }
 
 export const importPresentation = (file: File): Promise<EditorType> => {
+
     return new Promise((resolve, reject) => {
+
         const reader = new FileReader();
+
         reader.onload = (e) => {
             try {
                 const content = e.target?.result as string;
@@ -25,11 +30,14 @@ export const importPresentation = (file: File): Promise<EditorType> => {
                 }
 
                 resolve(parsedContent);
-            } catch (err) {
+            }
+            catch (err) {
                 reject(err)
             }
         };
+
         reader.onerror = (err) => reject(err);
         reader.readAsText(file);
+
     });
 }

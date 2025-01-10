@@ -3,23 +3,23 @@ export type Presentation = {
   slides: SlidesCollection,
 }
 
-export type SlidesCollection = Array<Slide>;
+export type SlidesCollection = Array<SlideType>;
 
-export type Slide = {
+export type SlideType = {
   id: string,
   elements: Array<SlideElement>,
-  background: Background,
+  background: Background | undefined,
 }
 
 export type SlideElement = SlideText | SlideImage;
 
 export type Background = SolidBackground | ImageBackground;
 
-export type SlideObj = { // базовый тип
+export type SlideObj = {
   id: string,
   pos: {
-    ox: number,
-    oy: number,
+    x: number,
+    y: number,
   },
   size: {
     width: number,

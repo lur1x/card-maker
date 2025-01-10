@@ -1,4 +1,4 @@
-import { EditorType } from "../EditorType";
+import { EditorType } from "../editorType.ts";
 import { createNewSlide } from "./createNewSlide";
 
 const slide = createNewSlide()
@@ -12,7 +12,7 @@ const defaultEditor: EditorType = {
     },
     selection: {
         selectedSlideId: slide.id,
-        selectedObjectId: '', // Добавлено свойство selectedObjectId
+        selectedObjectId: null, // Добавлено свойство selectedObjectId
     }
 }
 

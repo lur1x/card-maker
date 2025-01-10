@@ -1,10 +1,15 @@
 import { Presentation } from "./PresentationTypes.ts";
 
-export type SelectionType = {
+type SelectionType = {
     selectedSlideId: string | null,
     selectedObjectId: string | null,
 }
-export type EditorType = {
+type EditorType = {
     presentation: Presentation,
-    selection: SelectionType,
+    selection?: SelectionType,
+}
+
+export type {
+    EditorType,
+    SelectionType,
 }

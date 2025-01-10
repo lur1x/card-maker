@@ -1,18 +1,11 @@
-
 import styles from './ToolBar.module.css';
-import { dispatch } from '../../store/editor';
-import { removeElementFromSlide } from '../../store/removeElementFromSlide';
 import { useAppActions } from '../hooks/useAppActions.ts';
-import { exportPresentation } from '../../store/localStorage/fileUtils';
-import { importPresentation } from '../../store/localStorage/fileUtils';
+import { importPresentation, exportPresentation } from '../../store/localStorage/fileUtils';
 import { getEditor } from '../../store/editor';
-import { useRef, useState} from 'react';
+import React, { useRef, useState, useEffect} from 'react';
+import { HistoryContext } from '../hooks/historyContenx.ts';
 
-export function ToolBar()
-{
-   // function onAddSlide() {
-     //   dispatch(addSlide);
-    //}
+export function ToolBar() {
 
     const [backgroundColor, setBackgroundColor] = useState('#ffffff'); // State for color picker
 
@@ -20,93 +13,104 @@ export function ToolBar()
     const { removeSlide } = useAppActions()
     const { addTextToSlide } = useAppActions()
     const { addImageToSlide } = useAppActions()
+    const { removeSlideElement } = useAppActions()
     const { changeSlideBackground } = useAppActions()
     const { changeSlideBgrImage } = useAppActions()
-    //function onRemoveSlide() {
-      //  dispatch(removeSlide);
-    //}
+    const { setEditor } = useAppActions()
+    const history = React.useContext(HistoryContext)
 
-    //function onAddText() {
-      //  dispatch(addTextToSlide);
-    //}
-
-    function onRemoveElement() {
-        dispatch(removeElementFromSlide);
+    function onUndo() {
+        const newEditor = history.undo()
+        if (newEditor) {
+            setEditor(newEditor)
+        }
     }
 
-    /*function onAddImage(event: React.ChangeEvent<HTMLInputElement>) {
-        const file = event.target.files?.[0];
+    function onRedo() {
+        const newEditor = history.redo()
+        if (newEditor) {
+            setEditor(newEditor)
+        }
+    }
 
+    useEffect(() => {
+        const handleKeyDown = (event: React.KeyboardEvent) => {
+            if (event.metaKey || event.ctrlKey) {
+                if (event.key === 'z') {
+                    event.preventDefault();
+                    onUndo();
+                } else if (event.key === 'y') {
+                    event.preventDefault();
+                    onRedo();
+                }
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
+
+    const handleImageChange =(event: React.ChangeEvent<HTMLInputElement>)=> {
+        const file = event.target.files?.[0];
         if (file) {
             const reader = new FileReader();
+            reader.onload = () => {
+                const imgSrc = reader.result as string;
+                // Создаем новый объект Image для получения размеров
+                const img = new Image();
+                img.src = imgSrc;
+                img.onload = () => {
+                    // Теперь мы можем получить размеры
+                    const width = img.width;
+                    const height = img.height;
 
-            reader.onloadend = () => {
-                const imageUrl = reader.result as string;
-                dispatch(addImageToSlide, imageUrl);
-            };
-
+                    // Добавляем изображение с оригинальными размерами
+                    addImageToSlide(imgSrc, width, height);
+                };
+            }
             reader.readAsDataURL(file);
         }
-    }*/
 
-    //function onChangeSlideColor() {
-      //  dispatch(changeSlideColor, {
-        //    type: 'solid',
-            //color: '#FF0000',
-        //});
-   // }
+    }
+
+    const OnChangeSlideBgrImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                changeSlideBgrImage({ type: 'image', src: reader.result as string });
+            };
+            reader.readAsDataURL(file);
+        }
+    };
 
     const OnSlideBackgroundChange = (color: string) => {
         changeSlideBackground({ type: 'solid', color });
         setBackgroundColor(color); // Update color picker state
     };
 
-    function onExportPresentachion() {
+    function onExportPresentation() {
         const editor = getEditor();
         exportPresentation(editor);
     }
 
-    function onImportPresentachion(event: React.ChangeEvent<HTMLInputElement>) {
+    function onImportPresentation(event: React.ChangeEvent<HTMLInputElement>) {
         const file = event.target.files?.[0];
         if (file) {
             importPresentation(file)
-                .then((parsedContent) => {
-                    dispatch(() => parsedContent);
-                })
                 .catch((err) => {
                     console.error('Error importing presentation:', err);
-                    alert('Please check the file format.');
+                    alert('Error importing presentation. Please check the file format.');
                 });
         }
     }
 
     const imageInputRef = useRef<HTMLInputElement | null>(null);
     const bgrImageInputRef = useRef<HTMLInputElement | null>(null);
-    /*function onChangeBgrImage(event: React.ChangeEvent<HTMLInputElement>) {
-        const file = event.target.files?.[0];
 
-        if (file) {
-            const reader = new FileReader();
-
-            reader.onloadend = () => {
-                const imageUrl = reader.result as string;
-                dispatch(changeSlideBgrImage, imageUrl);
-            };
-
-            reader.readAsDataURL(file);
-        }
-    }
-    */
-    const OnChangeSlideBgrImage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                changeSlideBgrImage({ type: 'image', src: reader.result as string });
-            };
-            reader.readAsDataURL(file);
-        }
-    };
     return (
         <div className={styles.toolbar}>
             <button className={styles.button} onClick={addSlide}>
@@ -117,36 +121,45 @@ export function ToolBar()
                 Удалить Слайд
             </button>
 
+            <button className={styles.button} onClick={onUndo}>
+                Undo
+            </button>
+
+            <button className={styles.button} onClick={onRedo}>
+                Redo
+            </button>
+
             <button className={styles.button} onClick={addTextToSlide}>
                 Добавить текст
             </button>
 
-            <button className={styles.button} >
+            <button className={styles.button}>
                 <input
                     type="file"
                     id="imageUploader"
                     accept='image/*'
-                    onChange={addImageToSlide}
+                    onChange={handleImageChange}
                     className={styles.imageUploader}
-                    style={{ display: 'none' }}
+                    style={{display: 'none'}}
                     ref={imageInputRef}
                 />
                 <span onClick={() => imageInputRef.current?.click()}>Добавить картинку</span>
             </button>
 
-            <button className={styles.button} onClick={onRemoveElement}>
+            <button className={styles.button} onClick={removeSlideElement}>
                 Удалить Объект
             </button>
 
             <div className={styles.changeSlideColor}>
-                <button className={styles.button} >
+                <button className={styles.button}>
                     Поменять Фон
                     <input
                         className={styles.colorpicker}
                         type={'color'}
                         value={backgroundColor}
-                        onInput={() => {}}
-                        onChange={(e) => OnSlideBackgroundChange(e.target.value)}                    ></input>
+                        onInput={() => {
+                        }}
+                        onChange={(e) => OnSlideBackgroundChange(e.target.value)}></input>
                 </button>
             </div>
 
@@ -157,13 +170,13 @@ export function ToolBar()
                     accept='image/*'
                     onChange={OnChangeSlideBgrImage}
                     className={styles.imageUploader}
-                    style={{ display: 'none' }}
+                    style={{display: 'none'}}
                     ref={bgrImageInputRef}
                 />
                 Фон слайда
             </button>
 
-            <button className={styles.button} onClick={onExportPresentachion}>
+            <button className={styles.button} onClick={onExportPresentation}>
                 Экспорт
             </button>
 
@@ -179,9 +192,9 @@ export function ToolBar()
                     type="file"
                     id="importFile"
                     accept='.json'
-                    onChange={onImportPresentachion}
+                    onChange={onImportPresentation}
                     className={styles.fileInput}
-                    style={{ display: 'none' }}/>
+                    style={{display: 'none'}}/>
             </div>
         </div>
     )

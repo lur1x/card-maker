@@ -1,30 +1,29 @@
-import { EditorType } from "./EditorType";
+import { EditorType } from "./editorType.ts";
 import { SlideImage } from "./PresentationTypes";
-import {uuidV4} from "./utils/uuidV4.ts"
+import { uuidV4 } from "./utils/uuidV4.ts"
 
 
-export function addImageToSlide(editor: EditorType): EditorType {
-    const image = './src/store/Serenity.png';
+function addImageToSlide(editor: EditorType, src: string, width: number, height: number): EditorType {
     if (!editor.selection || !editor.selection.selectedSlideId) {
         return editor;
     }
 
     const newImage: SlideImage = {
         id: uuidV4(),
-        pos: {ox: 400, oy: 300},
-        size: {width: 200, height: 150},
+        pos: {x: 10, y: 10},
+        size: {width: width * 0.2, height: height * 0.2},
         type: 'SlideImage',
-        src: image,
+        src: src,
     }
 
-    const updatedSlides = editor.presentation.slides.map(SlideO => {
-        if (SlideO.id === editor.selection.selectedSlideId) {
+    const updatedSlides = editor.presentation.slides.map(Slide => {
+        if (Slide.id === editor.selection?.selectedSlideId) {
             return {
-                ...SlideO,
-                elements: [...SlideO.elements, newImage],
+                ...Slide,
+                elements: [...Slide.elements, newImage],
             };
         }
-        return SlideO;
+        return Slide;
     })
 
     return {
@@ -34,4 +33,8 @@ export function addImageToSlide(editor: EditorType): EditorType {
             slides: updatedSlides,
         }
     }
+}
+
+export {
+    addImageToSlide,
 }

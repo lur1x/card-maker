@@ -1,5 +1,5 @@
 import { Store } from "redux";
-import { EditorType } from "../EditorType";
+import { EditorType } from "../editorType.ts";
 
 type HistoryType = {
     undo: () => EditorType | undefined,

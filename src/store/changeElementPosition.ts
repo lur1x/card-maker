@@ -1,6 +1,7 @@
-import { EditorType } from './EditorType';
+import { EditorType } from './editorType.ts';
 
 function changeElementPosition(editor: EditorType, slideId: string, elementId: string, newX: number, newY: number): EditorType {
+
     return {
         ...editor,
         presentation: {
@@ -11,7 +12,7 @@ function changeElementPosition(editor: EditorType, slideId: string, elementId: s
                         ...slide,
                         elements: slide.elements.map(element =>
                             element.id === elementId
-                                ? { ...element, pos: { ox: newX, oy: newY } }
+                                ? { ...element, pos: { x: newX, y: newY } }
                                 : element
                         ),
                     }
@@ -19,6 +20,9 @@ function changeElementPosition(editor: EditorType, slideId: string, elementId: s
             ),
         },
     };
+
 }
 
-export { changeElementPosition };
+export {
+    changeElementPosition
+};

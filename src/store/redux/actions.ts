@@ -1,4 +1,4 @@
-import { EditorType, SelectionType } from "../EditorType"
+import { EditorType, SelectionType } from "../editorType.ts"
 
 enum ActionType {
     ADD_SLIDE = 'addSlide',
@@ -7,18 +7,18 @@ enum ActionType {
     SET_EDITOR = 'setEditor',
     ADD_TEXT = 'addText',
     ADD_IMAGE = 'addImage',
-    DELETE_OBJEKT = 'deleteObject',
+    REMOVE_SLIDE_ELEMENT = 'removeSlideElement',
     CHANGE_SLIDE_BACKGROUND = 'changeSlideBackground',
     CHANGE_SLIDE_BACKGROUND_IMAGE = 'changeSlideBgrImage',
-    MOVE_SLIDE = 'moveSlide',
-    MOVE_ELEMENT = 'moveElement',
-    RESIZE_ELEMENT = 'resizeElement',
+    CHANGE_SLIDE_POSITION = 'changeSlidePosition',
+    CHANGE_ELEMENT_POSITION = 'changeElementPosition',
+    RESIZE_SLIDE_ELEMENT = 'resizeSlideElement',
     SAVE_PRESENTATION = 'savePresentation',
     LOAD_PRESENTATION = 'loadPresentation',
 }
 
-type MoveSlideAction = {
-    type: ActionType.MOVE_SLIDE;
+type ChangeSlidePositionAction = {
+    type: ActionType.CHANGE_SLIDE_POSITION;
     payload: {
         editor: EditorType;
         slideId: string;
@@ -26,8 +26,8 @@ type MoveSlideAction = {
     };
 };
 
-type MoveElementAction = {
-    type: ActionType.MOVE_ELEMENT
+type ChangeElementPositionAction = {
+    type: ActionType.CHANGE_ELEMENT_POSITION;
     payload: {
         slideId: string;
         elementId: string;
@@ -36,8 +36,8 @@ type MoveElementAction = {
     };
 }
 
-type ResizeElementAction = {
-    type: ActionType.RESIZE_ELEMENT
+type ResizeSlideElementAction = {
+    type: ActionType.RESIZE_SLIDE_ELEMENT
     payload: {
         slideId: string;
         elementId: string;
@@ -47,17 +47,22 @@ type ResizeElementAction = {
         y: number;
     };
 }
+
 type AddSlideAction = {
     type: ActionType.ADD_SLIDE,
 }
+
 type RemoveSlideAction = {
     type: ActionType.REMOVE_SLIDE,
 }
+
 type AddTextAction = {
     type: ActionType.ADD_TEXT,
 }
+
 type AddImageAction = {
     type: ActionType.ADD_IMAGE,
+    payload: { src: string; width: number; height: number}
 }
 
 type SetEditorAction = {
@@ -70,13 +75,15 @@ type SetSelectionAction = {
     payload: SelectionType,
 }
 
-type DeleteObjectAction = {
-    type: ActionType.DELETE_OBJEKT
+type RemoveSlideElementAction = {
+    type: ActionType.REMOVE_SLIDE_ELEMENT
 }
+
 type ChangeSlideBgrAction = {
     type: ActionType.CHANGE_SLIDE_BACKGROUND
     payload: { type: 'solid'; color: string }
 }
+
 type ChangeSlideBgrImageAction = {
     type: ActionType.CHANGE_SLIDE_BACKGROUND_IMAGE
     payload: { type: 'image'; src: string }
@@ -91,9 +98,11 @@ type LoadPresentationAction = {
     type: ActionType.LOAD_PRESENTATION;
     payload: EditorType;
 };
+
 type EditorAction = AddSlideAction | RemoveSlideAction| AddTextAction | AddImageAction| SetSelectionAction | SetEditorAction
-    | DeleteObjectAction | ChangeSlideBgrAction | ChangeSlideBgrImageAction | MoveSlideAction | MoveElementAction | ResizeElementAction
-    | SavePresentationAction | LoadPresentationAction
+    | RemoveSlideElementAction | ChangeSlideBgrAction | ChangeSlideBgrImageAction | ChangeSlidePositionAction | ChangeElementPositionAction
+    | ResizeSlideElementAction | SavePresentationAction | LoadPresentationAction
+
 export {
     ActionType,
     type SetSelectionAction,

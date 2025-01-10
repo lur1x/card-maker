@@ -10,10 +10,10 @@ const elementSchema = {
         type: { type: 'string' },
         pos: {
             type: 'object',
-            required: ['ox', 'oy'],
+            required: ['x', 'y'],
             properties: {
-                ox: { type: 'number' },
-                oy: { type: 'number' }
+                x: { type: 'number' },
+                y: { type: 'number' }
             }
         },
         size: {

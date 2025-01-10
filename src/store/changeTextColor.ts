@@ -1,6 +1,7 @@
-import { Slide } from "./PresentationTypes";
+import { SlideType } from "./PresentationTypes";
 
-export function changeTextColor(slide: Slide, elementId: string, newFontColor: string): Slide {
+function changeTextColor(slide: SlideType, elementId: string, newFontColor: string): SlideType {
+
     return {
         ...slide,
         elements: slide.elements.map(item =>
@@ -10,4 +11,9 @@ export function changeTextColor(slide: Slide, elementId: string, newFontColor: s
             } : item
         ),
     };
+
+}
+
+export {
+    changeTextColor,
 }

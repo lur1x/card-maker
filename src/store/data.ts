@@ -1,15 +1,14 @@
-import {Presentation, Slide} from "./PresentationTypes.ts";
-import {EditorType} from "./EditorType.ts";
-import {img1} from "./img1.ts";
-import {imgBgr} from "./background.ts";
+import {Presentation, SlideType} from "./PresentationTypes.ts";
+import {EditorType} from "./editorType.ts";
 
-const slide1: Slide = {
+
+const slide1: SlideType = {
     id: 'slide-1',
     elements: [
         {
             id: 'text-1',
             type: 'SlideText',
-            pos: {ox: 20, oy: 170},
+            pos: {x: 20, y: 170},
             size: {width: 400, height: 30},
             value: 'Подвыпившие Штирлиц и Мюллер вышли из бара.\n' +
                 '— Давайте снимем девочек, — предложил Штирлиц.\n' +
@@ -21,7 +20,7 @@ const slide1: Slide = {
         {
             id: 'text-2',
             type: 'SlideText',
-            pos: {ox: 100, oy: 10},
+            pos: {x: 100, y: 10},
             size: {width: 400, height: 30},
             value: 'КоГда УжЕ хУки?',
             fontFamily: 'Arial',
@@ -31,7 +30,7 @@ const slide1: Slide = {
         {
             id: 'text-3',
             type: 'SlideText',
-            pos: {ox: 100, oy: 50},
+            pos: {x: 100, y: 50},
             size: {width: 400, height: 30},
             value: 'НЕееет хуки',
             fontFamily: 'Arial',
@@ -41,26 +40,26 @@ const slide1: Slide = {
         {
             id: 'image-1',
             type: 'SlideImage',
-            pos: {ox: 350, oy: 300},
+            pos: {x: 350, y: 300},
             size: {width: 200, height: 130},
-            src: img1,
+            src: './src/store/img.png',
         },
 
     ],
     background: {type: 'solid', color: '#007799'},
 }
-const slide2: Slide = {
+const slide2: SlideType = {
     id: 'slide-2',
     elements: [
         {
             id: 'image-2',
             type: 'SlideImage',
-            pos: {ox: 420, oy: 50},
+            pos: {x: 420, y: 50},
             size: {width: 400, height: 200},
-            src: img1,
+            src: './src/store/img.png',
         },
     ],
-    background: {type: 'image', src: imgBgr},
+    background: {type: 'image', src: './src/store/img.png'},
 
 }
 

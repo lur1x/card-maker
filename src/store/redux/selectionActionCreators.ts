@@ -1,4 +1,4 @@
-import { SelectionType } from "../EditorType";
+import { SelectionType } from "../editorType.ts";
 import { ActionType } from "./actions";
 
 function setSelection(newSelection: SelectionType) {

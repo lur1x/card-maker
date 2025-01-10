@@ -1,28 +1,28 @@
-import { Slide } from "../../store/PresentationTypes";
+import { SlideType } from "../../store/PresentationTypes";
 import { TextObject } from "./TextObject";
 import { ImageObject } from "./ImageObject";
 import styles from './Slide.module.css'
-import { CSSProperties, MouseEvent  } from "react";
+import { CSSProperties, MouseEvent } from "react";
 import { useDragAndDropElement } from "../hooks/useDragAndDropElement.tsx";
 import { useResizeElement } from "../hooks/useResizeElements.tsx";
 import { useAppSelector } from "../hooks/useAppSelector";
-import { SelectionType } from "../../store/EditorType";
+import { SelectionType } from "../../store/editorType.ts";
 import { useAppActions } from "../hooks/useAppActions";
 
 const Slide_Width = 935;
 const Slide_Height = 525;
 
 type SlideProps = {
-    slide: Slide | null,
+    slide: SlideType | null,
     scale?: number,
     className: string,
     selection?: SelectionType,
     showResizeHandles?: boolean;
 }
 
-export function SlideO({slide, scale = 1, className, showResizeHandles = true}: SlideProps) {
-    const selection = useAppSelector((state) => state.selection);
-    const {setSelection} = useAppActions();
+function Slide({slide, scale = 1, className, showResizeHandles = true}: SlideProps) {
+    const selection = useAppSelector((editor) => editor.selection);
+    const { setSelection } = useAppActions();
     const {
         isDragging,
         handleElementMouseDown,
@@ -41,7 +41,7 @@ export function SlideO({slide, scale = 1, className, showResizeHandles = true}: 
     }
 
     const slideStyles: CSSProperties = {
-        backgroundColor: slide.background?.type === 'solid' ? slide.background.color : 'transparent',
+        backgroundColor: slide.background?.type === 'solid' ? slide.background.color : '#ffffff',
         backgroundImage: slide.background?.type === 'image' ? `url(${slide.background.src})` : 'none',
         backgroundSize: 'cover',
         position: 'relative',
@@ -58,10 +58,26 @@ export function SlideO({slide, scale = 1, className, showResizeHandles = true}: 
         }
     };
 
-    const handleGlobalMouseUp = () => {
-        handleElementMouseUp();
-        handleResizeMouseUp();
+    const handleGlobalMouseUp = (event: MouseEvent<HTMLDivElement>) => {
+        if (isResizing || isDragging) {
+            handleElementMouseUp();
+            handleResizeMouseUp();
+        }
+
+        // Проверяем был ли клик вне элемента
+        if (!isResizing && !isDragging) {
+            const target = event.target as HTMLElement;
+            const elementId = target.getAttribute('data-element-id');
+            const slideId = slide?.id ?? "";
+
+            if (elementId) {
+                setSelection({ selectedSlideId: slideId, selectedObjectId: elementId });
+            } else {
+                setSelection({ selectedSlideId: slideId, selectedObjectId: null });
+            }
+        }
     };
+
 
     return (
         <div
@@ -76,8 +92,9 @@ export function SlideO({slide, scale = 1, className, showResizeHandles = true}: 
 
                 return (
                     <div
-
                         key={SlideElement.id}
+                        draggable
+                        data-element-id={SlideElement.id}
                         onClick={(event) => {
                             event.stopPropagation();
                             setSelection({selectedSlideId: slide.id, selectedObjectId: SlideElement.id})
@@ -108,57 +125,57 @@ export function SlideO({slide, scale = 1, className, showResizeHandles = true}: 
                                      onMouseDown={(event) => handleResizeMouseDown(event, SlideElement.id, 'top-left')}
                                      style={{
                                          position: 'absolute',
-                                         top: SlideElement.pos.oy,
-                                         left: SlideElement.pos.ox
+                                         top: SlideElement.pos.y - 3,
+                                         left: SlideElement.pos.x - 3
                                      }}/>
                                 <div className={`${styles.resizeHandle} ${styles.topRight}`}
                                      onMouseDown={(event) => handleResizeMouseDown(event, SlideElement.id, 'top-right')}
                                      style={{
                                          position: 'absolute',
-                                         top: SlideElement.pos.oy,
-                                         left: SlideElement.pos.ox + SlideElement.size.width
+                                         top: SlideElement.pos.y - 3,
+                                         left: SlideElement.pos.x + SlideElement.size.width - 3
                                      }}/>
                                 <div className={`${styles.resizeHandle} ${styles.bottomLeft}`}
                                      onMouseDown={(event) => handleResizeMouseDown(event, SlideElement.id, 'bottom-left')}
                                      style={{
                                          position: 'absolute',
-                                         top: SlideElement.pos.oy + SlideElement.size.height,
-                                         left: SlideElement.pos.ox
+                                         top: SlideElement.pos.y + SlideElement.size.height - 3,
+                                         left: SlideElement.pos.x - 3
                                      }}/>
                                 <div className={`${styles.resizeHandle} ${styles.bottomRight}`}
                                      onMouseDown={(event) => handleResizeMouseDown(event, SlideElement.id, 'bottom-right')}
                                      style={{
                                          position: 'absolute',
-                                         top: SlideElement.pos.oy + SlideElement.size.height - 5,
-                                         left: SlideElement.pos.ox + SlideElement.size.width - 5
+                                         top: SlideElement.pos.y + SlideElement.size.height - 3,
+                                         left: SlideElement.pos.x + SlideElement.size.width - 3
                                      }}/>
                                 <div className={`${styles.resizeHandle} ${styles.middleLeft}`}
                                      onMouseDown={(event) => handleResizeMouseDown(event, SlideElement.id, 'middle-left')}
                                      style={{
                                          position: 'absolute',
-                                         top: SlideElement.pos.oy + SlideElement.size.height / 2,
-                                         left: SlideElement.pos.ox
+                                         top: SlideElement.pos.y + SlideElement.size.height / 2,
+                                         left: SlideElement.pos.x - 3
                                      }}/>
                                 <div className={`${styles.resizeHandle} ${styles.middleRight}`}
                                      onMouseDown={(event) => handleResizeMouseDown(event, SlideElement.id, 'middle-right')}
                                      style={{
                                          position: 'absolute',
-                                         top: SlideElement.pos.oy + SlideElement.size.height / 2,
-                                         left: SlideElement.pos.ox + SlideElement.size.width
+                                         top: SlideElement.pos.y + SlideElement.size.height / 2,
+                                         left: SlideElement.pos.x + SlideElement.size.width - 3
                                      }}/>
                                 <div className={`${styles.resizeHandle} ${styles.topMiddle}`}
                                      onMouseDown={(event) => handleResizeMouseDown(event, SlideElement.id, 'top-middle')}
                                      style={{
                                          position: 'absolute',
-                                         top: SlideElement.pos.oy,
-                                         left: SlideElement.pos.ox + SlideElement.size.width / 2
+                                         top: SlideElement.pos.y - 3,
+                                         left: SlideElement.pos.x + SlideElement.size.width / 2
                                      }}/>
                                 <div className={`${styles.resizeHandle} ${styles.bottomMiddle}`}
                                      onMouseDown={(event) => handleResizeMouseDown(event, SlideElement.id, 'bottom-middle')}
                                      style={{
                                          position: 'absolute',
-                                         top: SlideElement.pos.oy + SlideElement.size.height,
-                                         left: SlideElement.pos.ox + SlideElement.size.width / 2
+                                         top: SlideElement.pos.y + SlideElement.size.height - 3,
+                                         left: SlideElement.pos.x  + SlideElement.size.width / 2
                                      }}/>
                             </>
                         )}
@@ -167,4 +184,8 @@ export function SlideO({slide, scale = 1, className, showResizeHandles = true}: 
             })}
         </div>
     );
+}
+
+export {
+    Slide,
 }

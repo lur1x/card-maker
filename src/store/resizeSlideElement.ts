@@ -1,23 +1,30 @@
-import { EditorType } from "./EditorType";
+import { EditorType } from "./editorType.ts";
 import { SlideElement } from "./PresentationTypes";
 
-export function resizeSlideElement(
+function resizeSlideElement(
     currentEditor: EditorType,
     slideId: string,
     elementId: string,
+    newWidth: number,
+    newHeight: number,
     newX: number,
     newY: number,
-    newWidth: number,
-    newHeight: number
 ): EditorType {
+
     const slide = currentEditor.presentation.slides.find(s => s.id === slideId);
-    if (!slide) return currentEditor;
+
+    if (!slide) {
+        return currentEditor;
+    }
+
     const element = slide.elements.find(el => el.id === elementId);
-    if (!element) return currentEditor;
+    if (!element) {
+        return currentEditor
+    };
 
     const updatedElem: SlideElement = {
         ...element,
-        pos: { ox: newX, oy: newY },
+        pos: { x: newX, y: newY },
         size: { width: newWidth, height: newHeight }
     }
 
@@ -31,4 +38,8 @@ export function resizeSlideElement(
             slides: currentEditor.presentation.slides.map(s => s.id === slideId ? updatedSlide : s)
         }
     };
+}
+
+export {
+    resizeSlideElement,
 }

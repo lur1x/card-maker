@@ -1,11 +1,13 @@
-import { EditorType } from "./EditorType";
+import { EditorType } from "./editorType.ts";
 
-export function changeSlidePosition(editor: EditorType, draggedSlideId: string, targetSlideId: string): EditorType {
+function changeSlidePosition(editor: EditorType, draggedSlideId: string, targetSlideId: string): EditorType {
+
     const { presentation, selection } = editor;
     const { slides } = presentation;
 
-    const draggedIndex = slides.findIndex(SlideO => SlideO.id === draggedSlideId);
-    const targetIndex = slides.findIndex(SlideO => SlideO.id === targetSlideId);
+    const draggedIndex = slides.findIndex(slide => slide.id === draggedSlideId);
+    const targetIndex = slides.findIndex(slide => slide.id === targetSlideId);
+
 
     if (draggedIndex === -1 || targetIndex === -1 || draggedIndex === targetIndex) {
         return editor;
@@ -22,4 +24,9 @@ export function changeSlidePosition(editor: EditorType, draggedSlideId: string, 
         },
         selection: selection,
     };
+
 }
+
+export {
+    changeSlidePosition
+};

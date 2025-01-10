@@ -1,24 +1,23 @@
-import { EditorType } from "./EditorType";
-import {Background} from "./PresentationTypes";
-//import {imgBgr} from "./background.ts";
+import { EditorType } from "./editorType.ts";
+import { Background } from "./PresentationTypes";
 
-export function changeSlideBgrImage(editor: EditorType, payload: Background): EditorType {
-    //const newBackground: ImageBackground = {
-        //type: 'image',
-        //src: imgBgr,
-    //};
+
+function changeSlideBgrImage(editor: EditorType, payload: Background): EditorType {
+
     if (!editor.selection || !editor.selection.selectedSlideId) {
         return editor;
     }
-    const updatedSlides = editor.presentation.slides.map(SlideO => {
-        if (SlideO.id === editor.selection.selectedSlideId) {
+
+    const updatedSlides = editor.presentation.slides.map(Slide => {
+        if (Slide.id === editor.selection?.selectedSlideId) {
             return {
-                ...SlideO,
+                ...Slide,
                 background: payload,
             };
         }
-        return SlideO;
+        return Slide;
     });
+
     return {
         ...editor,
         presentation: {
@@ -26,4 +25,8 @@ export function changeSlideBgrImage(editor: EditorType, payload: Background): Ed
             slides: updatedSlides,
         }
     };
+}
+
+export {
+    changeSlideBgrImage,
 }

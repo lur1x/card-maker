@@ -10,17 +10,15 @@ type SlideImageProps = {
 function ImageObject({imageObject, scale = 1, isSelected}: SlideImageProps) {
     const imageObjectStyles: CSSProperties = {
         position: 'absolute',
-        top: `${imageObject.pos.oy * scale}px`,
-        left: `${imageObject.pos.ox * scale}px`,
+        top: `${imageObject.pos.y * scale}px`,
+        left: `${imageObject.pos.x * scale}px`,
         width: `${imageObject.size.width * scale}px`,
         height: `${imageObject.size.height * scale}px`,
         zIndex: 3,
-    }
-    if (isSelected) {
-        imageObjectStyles.border = '3px solid #0b57d0'
+        border: isSelected ? '3px solid #0b57d0' : 'none',
     }
     return (
-        <img style={imageObjectStyles} src={`data:image/jpeg;base64, ${imageObject.src}`}/>
+        <img style={imageObjectStyles} src={`${imageObject.src}`} />
     )
 }
 export {

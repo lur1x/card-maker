@@ -1,6 +1,7 @@
-import { Slide } from "./PresentationTypes";
+import { SlideType } from "./PresentationTypes";
 
-export function changeTextFontSize(slide: Slide, elementId: string, newSize: {width: number, height: number}): Slide {
+function changeTextFontSize(slide: SlideType, elementId: string, newSize: {width: number, height: number}): SlideType {
+
     return {
         ...slide,
         elements: slide.elements.map(item =>
@@ -10,4 +11,9 @@ export function changeTextFontSize(slide: Slide, elementId: string, newSize: {wi
             } : item
         ),
     };
+
+}
+
+export {
+    changeTextFontSize,
 }

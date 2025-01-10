@@ -1,5 +1,5 @@
 import { ActionType } from "./actions"
-import {EditorType} from "../EditorType";
+import { EditorType } from "../editorType.ts";
 
 function addSlide() {
     return {
@@ -19,15 +19,20 @@ function addTextToSlide() {
     }
 }
 
-function addImageToSlide() {
+function addImageToSlide(src: string, width: number, height: number) {
     return {
         type: ActionType.ADD_IMAGE,
+        payload: {
+            src,
+            width,
+            height,
+        },
     }
 }
 
-function deleteObject(){
+function removeSlideElement(){
     return {
-        type: ActionType.DELETE_OBJEKT
+        type: ActionType.REMOVE_SLIDE_ELEMENT,
     }
 }
 
@@ -46,7 +51,7 @@ function changeSlideBgrImage(payload: { type: 'image', src: string }) {
 }
 
 const changeSlidePosition = (editor: EditorType, slideId: string, targetSlideId: string) => ({
-    type: ActionType.MOVE_SLIDE,
+    type: ActionType.CHANGE_SLIDE_POSITION,
     payload: {
         editor,
         slideId,
@@ -55,7 +60,7 @@ const changeSlidePosition = (editor: EditorType, slideId: string, targetSlideId:
 });
 
 const changeElementPosition = (slideId: string, elementId: string, newX: number, newY: number) => ({
-    type: ActionType.MOVE_ELEMENT,
+    type: ActionType.CHANGE_ELEMENT_POSITION,
     payload: {
         slideId,
         elementId,
@@ -72,7 +77,7 @@ const resizeElementOnSlide = (
     newX: number,
     newY: number,
 ) => ({
-    type: ActionType.RESIZE_ELEMENT,
+    type: ActionType.RESIZE_SLIDE_ELEMENT,
     payload: {
         slideId,
         elementId,
@@ -102,7 +107,7 @@ export {
     removeSlide,
     addTextToSlide,
     addImageToSlide,
-    deleteObject,
+    removeSlideElement,
     changeSlideBackground,
     changeSlideBgrImage,
     changeSlidePosition,

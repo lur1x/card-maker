@@ -1,4 +1,4 @@
-import { SlideO } from "../Slide/Slide.tsx";
+import { Slide } from "../Slide/Slide.tsx";
 import styles from './SlideList.module.css';
 import { useDragAndDropSlide } from "../hooks/useDragAndDropSlide.tsx";
 import { useAppActions } from "../hooks/useAppActions.ts";
@@ -6,16 +6,19 @@ import { useAppSelector } from "../hooks/useAppSelector.ts";
 
 const Slide_Preview_Scale = 0.2;
 
-function getSlideWrapperClassName(slideId: string, selectedSlideId: string | undefined | null): string {
-    let className = styles.slideWrapper;
-    if (slideId === selectedSlideId) {
-        className = `${className} ${styles.selectedSlide}`;
-    }
-    return className;
-}
 
-export function SlidesList() {
-    const editor = useAppSelector((state) => state);
+function SlidesList() {
+
+    function getSlideWrapperClassName(slideId: string, selectedSlideId: string | undefined | null): string {
+        let className = styles.slideWrapper;
+        if (slideId === selectedSlideId) {
+            className = `${className} ${styles.selectedSlide}`;
+        }
+        return className;
+    }
+
+
+    const editor = useAppSelector((editor) => editor);
     const slides = editor.presentation.slides;
     const selection = editor.selection;
 
@@ -28,7 +31,6 @@ export function SlidesList() {
     } = useDragAndDropSlide();
 
     const { setSelection } = useAppActions();
-
     function onSlideClick(slideId: string) {
         setSelection({
             selectedSlideId: slideId,
@@ -47,7 +49,7 @@ export function SlidesList() {
                      onClick={() => onSlideClick(slide.id)}
                      className={`${styles.slideWrapper} ${draggingSlide === slide.id ? styles.dragging : ''} ${dragOverSlide === slide.id ? styles.dragover : ''} ${getSlideWrapperClassName(slide.id, selection?.selectedSlideId)}`}>
 
-                    <SlideO
+                    <Slide
                         slide={slide}
                         scale={Slide_Preview_Scale}
                         className={styles.item}
@@ -57,4 +59,8 @@ export function SlidesList() {
             )}
         </div>
     );
+}
+
+export {
+    SlidesList,
 }
