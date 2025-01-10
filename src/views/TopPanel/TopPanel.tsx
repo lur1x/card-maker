@@ -1,7 +1,7 @@
 import styles from './TopPanel.module.css';
 import React from "react";
 import { useAppSelector } from '../hooks/useAppSelector';
-import { dispatch } from '../../store/editor'; // Предполагаем, что dispatch доступен из вашего места
+import { dispatch } from '../../store/editor';
 import { renamePresentationTitle } from '../../store/renamePresentationTitle.ts';
 
 function TopPanel() {

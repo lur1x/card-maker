@@ -1,7 +1,7 @@
 import { EditorType } from "../editorType.ts";
 import { validateEditor } from "./validation";
 
-export const saveToLocalStorage = (editor: EditorType) => {
+function saveToLocalStorage(editor: EditorType) {
 
     try {
         if(!validateEditor(editor)) {
@@ -17,7 +17,7 @@ export const saveToLocalStorage = (editor: EditorType) => {
 
 };
 
-export const loadFromLocalStorage = (): EditorType | null => {
+function loadFromLocalStorage(): EditorType | null {
 
     try {
         const serializedState = localStorage.getItem('presentationEditor');
@@ -34,4 +34,9 @@ export const loadFromLocalStorage = (): EditorType | null => {
         return null;
     }
 
+}
+
+export {
+    saveToLocalStorage,
+    loadFromLocalStorage,
 }

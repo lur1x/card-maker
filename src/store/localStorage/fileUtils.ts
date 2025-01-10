@@ -1,7 +1,7 @@
 import { validateEditor } from "./validation";
 import { EditorType } from "../editorType.ts";
 
-export const exportPresentation = (editor: EditorType) => {
+function exportPresentation(editor: EditorType) {
 
     const dataStr = JSON.stringify(editor, null, 2);
     const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
@@ -14,7 +14,7 @@ export const exportPresentation = (editor: EditorType) => {
 
 }
 
-export const importPresentation = (file: File): Promise<EditorType> => {
+function importPresentation(file: File): Promise<EditorType> {
 
     return new Promise((resolve, reject) => {
 
@@ -40,4 +40,9 @@ export const importPresentation = (file: File): Promise<EditorType> => {
         reader.readAsText(file);
 
     });
+}
+
+export {
+    exportPresentation,
+    importPresentation,
 }

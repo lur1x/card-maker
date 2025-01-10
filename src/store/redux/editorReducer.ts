@@ -1,23 +1,25 @@
-import {EditorType} from "../editorType.ts";
-import {addSlide} from "../addSlide";
-import {removeSlide} from "../removeSlide.ts";
-import {addTextToSlide} from "../addTextToSlide.ts";
-import {addImageToSlide} from "../addImageToSlide.ts";
-import {removeSlideElement} from "../removeSlideElement.ts";
-import {defaultEditor} from "./defaultEditor";
-//import {editor as defaultEditor} from "../data.ts";
-import {setSelection} from "../setSelection.ts";
-import {ActionType, EditorAction} from "./actions";
-import {changeSlidePosition} from "../changeSlidePosition.ts";
-import {changeElementPosition} from "../changeElementPosition.ts";
-import {changeSlideBackground} from "../changeSlideBackground.ts";
-import {changeSlideBgrImage} from "../changeSlideBgrImage.ts";
-import {resizeSlideElement} from "../resizeSlideElement.ts";
-import {saveToLocalStorage, loadFromLocalStorage} from "../localStorage/localStorageUtils.ts";
+import { EditorType } from "../editorType.ts";
+import { addSlide } from "../addSlide";
+import { removeSlide } from "../removeSlide.ts";
+import { addTextToSlide } from "../addTextToSlide.ts";
+import { addImageToSlide } from "../addImageToSlide.ts";
+import { removeSlideElement } from "../removeSlideElement.ts";
+import { defaultEditor } from "./defaultEditor";
+import { setSelection } from "../setSelection.ts";
+import { ActionType, EditorAction } from "./actions";
+import { changeSlidePosition } from "../changeSlidePosition.ts";
+import { changeElementPosition } from "../changeElementPosition.ts";
+import { changeSlideBackground } from "../changeSlideBackground.ts";
+import { changeSlideBgrImage } from "../changeSlideBgrImage.ts";
+import { resizeSlideElement } from "../resizeSlideElement.ts";
+import { saveToLocalStorage, loadFromLocalStorage } from "../localStorage/localStorageUtils.ts";
 
-
+//const initialState: EditorType = loadFromLocalStorage() || defaultEditor;
 
 function editorReducer(editor: EditorType = defaultEditor, action: EditorAction): EditorType {
+
+    //let newState: EditorType;
+
     switch (action.type) {
         case ActionType.ADD_SLIDE:
             return addSlide(editor)

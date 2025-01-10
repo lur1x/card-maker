@@ -19,7 +19,6 @@ function removeSlide(editor: EditorType): EditorType {
 
     return {
 
-        ...editor,
         presentation: {
             ...editor.presentation,
             slides: newSlides,

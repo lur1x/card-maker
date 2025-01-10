@@ -64,7 +64,6 @@ function Slide({slide, scale = 1, className, showResizeHandles = true}: SlidePro
             handleResizeMouseUp();
         }
 
-        // Проверяем был ли клик вне элемента
         if (!isResizing && !isDragging) {
             const target = event.target as HTMLElement;
             const elementId = target.getAttribute('data-element-id');
@@ -85,7 +84,6 @@ function Slide({slide, scale = 1, className, showResizeHandles = true}: SlidePro
             className={`${styles.slide} ${className}`}
             onMouseMove={handleGlobalMouseMove}
             onMouseUp={handleGlobalMouseUp}
-
         >
             {slide.elements.map(SlideElement => {
                 const isSelectedElement = SlideElement.id === selection?.selectedObjectId;

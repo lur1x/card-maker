@@ -12,7 +12,7 @@ const defaultEditor: EditorType = {
     },
     selection: {
         selectedSlideId: slide.id,
-        selectedObjectId: null, // Добавлено свойство selectedObjectId
+        selectedObjectId: null,
     }
 }
 

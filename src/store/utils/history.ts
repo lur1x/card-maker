@@ -13,7 +13,6 @@ function getLastItem(stack: Array<EditorType>): EditorType {
 function initHistory(store: Store<EditorType>): HistoryType {
     const undoStack: Array<EditorType> = []
     let redoStack: Array<EditorType> = []
-
     let previousEditor = store.getState()
 
     store.subscribe(() => {
@@ -22,10 +21,12 @@ function initHistory(store: Store<EditorType>): HistoryType {
             if (editor == getLastItem(undoStack)) {
                 undoStack.pop()
                 redoStack.push(previousEditor)
-            } else if (editor == getLastItem(redoStack)) {
+            }
+            else if (editor == getLastItem(redoStack)) {
                 redoStack.pop()
                 undoStack.push(previousEditor)
-            } else {
+            }
+            else {
                 undoStack.push(previousEditor)
                 redoStack = []
             }

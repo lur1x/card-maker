@@ -21,6 +21,7 @@ function SlidesList() {
     const editor = useAppSelector((editor) => editor);
     const slides = editor.presentation.slides;
     const selection = editor.selection;
+    const { setSelection } = useAppActions();
 
     const {
         draggingSlide,
@@ -30,7 +31,7 @@ function SlidesList() {
         handleDragEnd
     } = useDragAndDropSlide();
 
-    const { setSelection } = useAppActions();
+
     function onSlideClick(slideId: string) {
         setSelection({
             selectedSlideId: slideId,

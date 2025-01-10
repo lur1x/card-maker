@@ -81,12 +81,18 @@ type RemoveSlideElementAction = {
 
 type ChangeSlideBgrAction = {
     type: ActionType.CHANGE_SLIDE_BACKGROUND
-    payload: { type: 'solid'; color: string }
+    payload: {
+        type: 'solid';
+        color: string
+    }
 }
 
 type ChangeSlideBgrImageAction = {
     type: ActionType.CHANGE_SLIDE_BACKGROUND_IMAGE
-    payload: { type: 'image'; src: string }
+    payload: {
+        type: 'image';
+        src: string
+    }
 }
 
 type SavePresentationAction = {

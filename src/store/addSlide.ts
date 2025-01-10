@@ -32,7 +32,7 @@ function addSlide(editor: EditorType): EditorType {
     }
 }*/
 
-function addSlide(NewPresentation: EditorType): EditorType {
+function addSlide(editor: EditorType): EditorType {
     const newSlide: SlideType = {
         id: uuidV4(),
         elements: [],
@@ -41,15 +41,17 @@ function addSlide(NewPresentation: EditorType): EditorType {
             color: '#FFFFFF',
         },
     }
-    const selectedSlideindex = NewPresentation.presentation.slides.findIndex(SlideO => SlideO.id == NewPresentation.selection?.selectedSlideId);
+
+    const selectedSlideindex = editor.presentation.slides.findIndex(SlideO => SlideO.id == editor.selection?.selectedSlideId);
+
     return{
         presentation:{
-            ...NewPresentation.presentation,
-            slides: [...NewPresentation.presentation.slides.slice(0, selectedSlideindex + 1),
+            ...editor.presentation,
+            slides: [...editor.presentation.slides.slice(0, selectedSlideindex + 1),
                 newSlide,
-                ...NewPresentation.presentation.slides.slice(selectedSlideindex + 1)]
+                ...editor.presentation.slides.slice(selectedSlideindex + 1)]
         },
-        selection: NewPresentation.selection
+        selection: editor.selection
 
     }
 }

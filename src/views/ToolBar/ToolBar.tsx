@@ -99,14 +99,23 @@ export function ToolBar() {
 
     function onImportPresentation(event: React.ChangeEvent<HTMLInputElement>) {
         const file = event.target.files?.[0];
+
         if (file) {
-            importPresentation(file)
-                .catch((err) => {
-                    console.error('Error importing presentation:', err);
-                    alert('Error importing presentation. Please check the file format.');
-                });
+            console.log(file);
+
+            try {
+                importPresentation(file);
+                console.log('збс');
+            } catch (err) {
+                console.log('не збс');
+                console.error('Error importing presentation:', err);
+                alert('Error importing presentation. Please check the file format.');
+            }
+        } else {
+            alert('No file selected. Please select a file to import.');
         }
     }
+
 
     const imageInputRef = useRef<HTMLInputElement | null>(null);
     const bgrImageInputRef = useRef<HTMLInputElement | null>(null);
