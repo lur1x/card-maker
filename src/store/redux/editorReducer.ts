@@ -14,43 +14,54 @@ import { changeSlideBgrImage } from "../changeSlideBgrImage.ts";
 import { resizeSlideElement } from "../resizeSlideElement.ts";
 import { saveToLocalStorage, loadFromLocalStorage } from "../localStorage/localStorageUtils.ts";
 
-//const initialState: EditorType = loadFromLocalStorage() || defaultEditor;
+const initialState: EditorType = loadFromLocalStorage() || defaultEditor;
 
-function editorReducer(editor: EditorType = defaultEditor, action: EditorAction): EditorType {
+function editorReducer(editor: EditorType = initialState, action: EditorAction): EditorType {
 
-    //let newState: EditorType;
+    let newState: EditorType;
 
     switch (action.type) {
         case ActionType.ADD_SLIDE:
-            return addSlide(editor)
+            newState =  addSlide(editor);
+            break;
         case ActionType.REMOVE_SLIDE:
-             return removeSlide(editor)
+             newState =  removeSlide(editor);
+             break;
         case ActionType.ADD_TEXT:
-            return addTextToSlide(editor)
+            newState = addTextToSlide(editor);
+            break;
         case ActionType.ADD_IMAGE:
-            return addImageToSlide(editor, action.payload.src, action.payload.width, action.payload.height);
-        case ActionType.SET_SELECTION:
-            return setSelection(editor, action)
+            newState =  addImageToSlide(editor, action.payload.src, action.payload.width, action.payload.height);
+            break;
+       case ActionType.SET_SELECTION:
+            newState =  setSelection(editor, action);
+            break;
         case ActionType.SET_EDITOR:
-            return action.payload
+            newState = action.payload;
+            break;
         case ActionType.REMOVE_SLIDE_ELEMENT:
-            return removeSlideElement(editor)
+            newState = removeSlideElement(editor);
+            break;
         case ActionType.CHANGE_SLIDE_BACKGROUND:
-            return changeSlideBackground(editor, action.payload)
+            newState = changeSlideBackground(editor, action.payload);
+            break;
         case ActionType.CHANGE_SLIDE_BACKGROUND_IMAGE:
-            return changeSlideBgrImage(editor, action.payload)
+            newState = changeSlideBgrImage(editor, action.payload);
+            break;
         case ActionType.CHANGE_SLIDE_POSITION:
-            return changeSlidePosition(action.payload.editor, action.payload.slideId, action.payload.targetSlideId)
+            newState = changeSlidePosition(action.payload.editor, action.payload.slideId, action.payload.targetSlideId);
+            break;
         case ActionType.CHANGE_ELEMENT_POSITION:
-            return changeElementPosition(
+            newState = changeElementPosition(
                 editor,
                 action.payload.slideId,
                 action.payload.elementId,
                 action.payload.x,
                 action.payload.y
             );
+            break;
         case ActionType.RESIZE_SLIDE_ELEMENT:
-            return resizeSlideElement(
+            newState = resizeSlideElement(
                 editor,
                 action.payload.slideId,
                 action.payload.elementId,
@@ -59,6 +70,7 @@ function editorReducer(editor: EditorType = defaultEditor, action: EditorAction)
                 action.payload.x,
                 action.payload.y
             );
+            break;
         case ActionType.SAVE_PRESENTATION:
             saveToLocalStorage(action.payload);
             return action.payload;
@@ -67,6 +79,10 @@ function editorReducer(editor: EditorType = defaultEditor, action: EditorAction)
         default:
             return editor
     }
+
+    saveToLocalStorage(newState);
+
+    return newState;
 }
 
 export {

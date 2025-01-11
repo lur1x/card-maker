@@ -1,9 +1,9 @@
 import styles from './ToolBar.module.css';
 import { useAppActions } from '../hooks/useAppActions.ts';
 import { importPresentation, exportPresentation } from '../../store/localStorage/fileUtils';
-import { getEditor } from '../../store/editor';
 import React, { useRef, useState, useEffect} from 'react';
 import { HistoryContext } from '../hooks/historyContenx.ts';
+import { useAppSelector } from "../hooks/useAppSelector";
 
 export function ToolBar() {
 
@@ -18,6 +18,7 @@ export function ToolBar() {
     const { changeSlideBgrImage } = useAppActions()
     const { setEditor } = useAppActions()
     const history = React.useContext(HistoryContext)
+    const editor = useAppSelector((state) => state);
 
     function onUndo() {
         const newEditor = history.undo()
@@ -92,27 +93,23 @@ export function ToolBar() {
         setBackgroundColor(color); // Update color picker state
     };
 
-    function onExportPresentation() {
+    /*function onExportPresentation() {
         const editor = getEditor();
         exportPresentation(editor);
-    }
+    }*/
 
     function onImportPresentation(event: React.ChangeEvent<HTMLInputElement>) {
         const file = event.target.files?.[0];
 
         if (file) {
-            console.log(file);
-
-            try {
-                importPresentation(file);
-                console.log('збс');
-            } catch (err) {
-                console.log('не збс');
-                console.error('Error importing presentation:', err);
-                alert('Error importing presentation. Please check the file format.');
-            }
-        } else {
-            alert('No file selected. Please select a file to import.');
+            importPresentation(file)
+                .then((importedEditor) => {
+                    setEditor(importedEditor);
+                })
+                .catch((err) => {
+                    console.error("Error importing presentation:", err);
+                    alert("Ошибка при импорте презентации. Проверьте формат файла.");
+                });
         }
     }
 
@@ -185,7 +182,7 @@ export function ToolBar() {
                 Фон слайда
             </button>
 
-            <button className={styles.button} onClick={onExportPresentation}>
+            <button className={styles.button} onClick={exportPresentation}>
                 Экспорт
             </button>
 

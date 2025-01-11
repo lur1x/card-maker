@@ -1,17 +1,30 @@
 import { validateEditor } from "./validation";
 import { EditorType } from "../editorType.ts";
+import { loadFromLocalStorage} from "./localStorageUtils.ts";
 
-function exportPresentation(editor: EditorType) {
+function exportPresentation() {
+    try {
+        const editor = loadFromLocalStorage();
 
-    const dataStr = JSON.stringify(editor, null, 2);
-    const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
-    const exportFileDefaultName = 'presentation.json';
-    const linkElem = document.createElement('a');
+        if (!editor) {
+            throw new Error("Нет сохранённого состояния для экспорта.");
+        }
+        const dataStr = JSON.stringify(editor, null, 2);
+        const blob = new Blob([dataStr], { type: "application/json" });
+        const url = URL.createObjectURL(blob)
+        const linkElem = document.createElement('a');
 
-    linkElem.setAttribute('href', dataUri);
-    linkElem.setAttribute('download', exportFileDefaultName);
-    linkElem.click();
+        linkElem.href = url;
+        linkElem.download = "presentation.json";
+        linkElem.click();
 
+        URL.revokeObjectURL(url);
+
+        console.log("Экспортировано состояние из localStorage:", editor);
+    }
+    catch (error) {
+        console.error("Ошибка при экспорте презентации:", error);
+    }
 }
 
 function importPresentation(file: File): Promise<EditorType> {

@@ -10,6 +10,7 @@ function saveToLocalStorage(editor: EditorType) {
         }
         const serializedState = JSON.stringify(editor);
         localStorage.setItem('presentationEditor', serializedState);
+        console.log("Состояние редактора успешно сохранено в localStorage.");
     }
     catch (err) {
         console.error('Error saving to LS:', err);
@@ -23,10 +24,20 @@ function loadFromLocalStorage(): EditorType | null {
         const serializedState = localStorage.getItem('presentationEditor');
 
         if (serializedState === null) {
+            console.warn("Нет данных в localStorage.");
             return null;
         }
 
-        return JSON.parse(serializedState)
+
+        const editor = JSON.parse(serializedState) as EditorType;
+
+        if (!validateEditor(editor)) {
+            console.error("Ошибка валидации при загрузке из localStorage:", validateEditor.errors);
+            throw new Error("Данные из localStorage не прошли валидацию.");
+        }
+
+        console.log("Состояние редактора успешно загружено из localStorage.");
+        return editor;
 
     }
     catch (err) {
