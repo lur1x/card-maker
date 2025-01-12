@@ -22,7 +22,6 @@ export function useDragAndDropSlide() {
 
     function handleDragEnd() {
         if (draggingSlide && dragOverSlide && draggingSlide !== dragOverSlide) {
-            // Вызываем moveSlide из useAppActions, передавая нужные параметры
             changeSlidePosition(editor, draggingSlide, dragOverSlide);
         }
         // Сброс состояний

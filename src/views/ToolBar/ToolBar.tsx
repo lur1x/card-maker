@@ -38,12 +38,12 @@ export function ToolBar() {
     }
 
     useEffect(() => {
-        const handleKeyDown = (event: React.KeyboardEvent) => {
+        const handleKeyDown = (event: KeyboardEvent) => {
             if (event.metaKey || event.ctrlKey) {
-                if (event.key === 'z') {
+                if (event.key === 'z' || event.key === 'Z'|| event.key === 'я' || event.key === 'Я') {
                     event.preventDefault();
                     onUndo();
-                } else if (event.key === 'y') {
+                } else if (event.key === 'y' || event.key === 'Y' || event.key === 'н'|| event.key === 'Н') {
                     event.preventDefault();
                     onRedo();
                 }
@@ -63,7 +63,7 @@ export function ToolBar() {
             const reader = new FileReader();
             reader.onload = () => {
                 const imgSrc = reader.result as string;
-                // Создаем новый объект Image для получения размеров
+
                 const img = new Image();
                 img.src = imgSrc;
                 img.onload = () => {
@@ -71,7 +71,6 @@ export function ToolBar() {
                     const width = img.width;
                     const height = img.height;
 
-                    // Добавляем изображение с оригинальными размерами
                     addImageToSlide(imgSrc, width, height);
                 };
             }
@@ -115,7 +114,7 @@ export function ToolBar() {
                 });
         }
     }
-
+    const presentationTitle = editor.presentation.title;
 
     const handleGeneratePDF = async () => {
         try {
@@ -134,7 +133,7 @@ export function ToolBar() {
         if (pdfURL) {
             const link = document.createElement("a");
             link.href = pdfURL;
-            link.download = "presentation.pdf";
+            link.download = presentationTitle + ".pdf";
             link.click();
         }
     };
@@ -249,12 +248,14 @@ export function ToolBar() {
                                     className={styles.iframePreview}
                                     style={{width: '100%', height: '80vh'}} // Устанавливаем размеры iframe
                                 ></iframe>
-                                <button className={styles.button} onClick={handleDownloadPDF}>
-                                    Скачать PDF
-                                </button>
-                                <button className={styles.closeButton} onClick={handleClosePreview}>
-                                    Закрыть
-                                </button>
+                                <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                    <button className={styles.button} onClick={handleDownloadPDF}>
+                                        Скачать PDF
+                                    </button>
+                                    <button className={styles.Button} onClick={handleClosePreview}>
+                                        Отмена
+                                    </button>
+                                </div>
                             </>
                         )}
                     </div>
@@ -263,4 +264,3 @@ export function ToolBar() {
         </div>
     )
 }
-

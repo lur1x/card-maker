@@ -1,15 +1,14 @@
 import jsPDF from "jspdf";
-
+import "../../assets/Roboto-Black-normal.ts";
 import { SlideType, SlideElement } from "../PresentationTypes";
 
 export const generatePDF = async (slides: SlideType[]): Promise<Blob> => {
     const pdf = new jsPDF("landscape", "px", [935, 525]);
 
-
     pdf.setFont("Roboto-Black", "normal");
 
     if (!slides || slides.length === 0) {
-        throw new Error("Ошибка: Презентация не содержит слайдов!");
+        throw new Error("Error: The presentation does not contain any slides.");
     }
 
     slides.forEach((slide, index) => {

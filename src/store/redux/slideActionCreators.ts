@@ -19,6 +19,14 @@ function addTextToSlide() {
     }
 }
 
+function changeTextContent(id: string, newText: string) {
+    return{
+        type: ActionType.CHANGE_TEXT_CONTENT,
+        id,
+        newText,
+    }
+}
+
 function addImageToSlide(src: string, width: number, height: number) {
     return {
         type: ActionType.ADD_IMAGE,
@@ -106,6 +114,7 @@ export {
     addSlide,
     removeSlide,
     addTextToSlide,
+    changeTextContent,
     addImageToSlide,
     removeSlideElement,
     changeSlideBackground,

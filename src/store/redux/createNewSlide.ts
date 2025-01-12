@@ -7,7 +7,7 @@ function createNewSlide(): SlideType {
         elements: [],
         background: {
             type: 'solid',
-            color: '#ffffff',  // Здесь используется SolidBackground
+            color: '#ffffff',
         }
     };
 }

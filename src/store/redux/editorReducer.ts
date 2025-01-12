@@ -1,18 +1,19 @@
-import { EditorType } from "../editorType.ts";
-import { addSlide } from "../addSlide";
-import { removeSlide } from "../removeSlide.ts";
-import { addTextToSlide } from "../addTextToSlide.ts";
-import { addImageToSlide } from "../addImageToSlide.ts";
-import { removeSlideElement } from "../removeSlideElement.ts";
-import { defaultEditor } from "./defaultEditor";
-import { setSelection } from "../setSelection.ts";
-import { ActionType, EditorAction } from "./actions";
-import { changeSlidePosition } from "../changeSlidePosition.ts";
-import { changeElementPosition } from "../changeElementPosition.ts";
-import { changeSlideBackground } from "../changeSlideBackground.ts";
-import { changeSlideBgrImage } from "../changeSlideBgrImage.ts";
-import { resizeSlideElement } from "../resizeSlideElement.ts";
-import { saveToLocalStorage, loadFromLocalStorage } from "../localStorage/localStorageUtils.ts";
+import {EditorType} from "../editorType.ts";
+import {addSlide} from "../addSlide";
+import {removeSlide} from "../removeSlide.ts";
+import {addTextToSlide} from "../addTextToSlide.ts";
+import {addImageToSlide} from "../addImageToSlide.ts";
+import {removeSlideElement} from "../removeSlideElement.ts";
+import {defaultEditor} from "./defaultEditor";
+import {setSelection} from "../setSelection.ts";
+import {ActionType, EditorAction} from "./actions";
+import {changeSlidePosition} from "../changeSlidePosition.ts";
+import {changeElementPosition} from "../changeElementPosition.ts";
+import {changeSlideBackground} from "../changeSlideBackground.ts";
+import {changeSlideBgrImage} from "../changeSlideBgrImage.ts";
+import {resizeSlideElement} from "../resizeSlideElement.ts";
+import {loadFromLocalStorage, saveToLocalStorage} from "../localStorage/localStorageUtils.ts";
+import {changeTextContent} from "../changeTextContent.ts";
 
 const initialState: EditorType = loadFromLocalStorage() || defaultEditor;
 
@@ -30,10 +31,13 @@ function editorReducer(editor: EditorType = initialState, action: EditorAction):
         case ActionType.ADD_TEXT:
             newState = addTextToSlide(editor);
             break;
+        case ActionType.CHANGE_TEXT_CONTENT:
+            newState = changeTextContent(editor, action.id, action.newText);
+            break;
         case ActionType.ADD_IMAGE:
             newState =  addImageToSlide(editor, action.payload.src, action.payload.width, action.payload.height);
             break;
-       case ActionType.SET_SELECTION:
+        case ActionType.SET_SELECTION:
             newState =  setSelection(editor, action);
             break;
         case ActionType.SET_EDITOR:

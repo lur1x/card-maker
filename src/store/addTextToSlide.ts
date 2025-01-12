@@ -13,7 +13,7 @@ function addTextToSlide(editor: EditorType): EditorType {
 
     const newTextObject: SlideText = {
         id: uuidV4(),
-        pos: {x: 300, y: 400},
+        pos: {x: 200, y: 400},
         size: {width: 200, height: 30},
         type: 'SlideText',
         value: newText,

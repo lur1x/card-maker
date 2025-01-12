@@ -31,3 +31,28 @@
     margin: 10px;
     border-radius: 10px;
 }
+
+.topLeft {
+    cursor: nwse-resize;
+}
+.topRight {
+    cursor: nesw-resize;
+}
+.bottomLeft {
+    cursor: nesw-resize;
+}
+.bottomRight {
+    cursor: nwse-resize;
+}
+.middleLeft {
+    cursor: ew-resize;
+}
+.middleRight {
+    cursor: ew-resize;
+}
+.middleTop {
+    cursor: ns-resize;
+}
+.middleBottom {
+    cursor: ns-resize;
+}

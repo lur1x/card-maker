@@ -161,15 +161,15 @@ function Slide({slide, scale = 1, className, showResizeHandles = true}: SlidePro
                                          top: SlideElement.pos.y + SlideElement.size.height / 2,
                                          left: SlideElement.pos.x + SlideElement.size.width - 3
                                      }}/>
-                                <div className={`${styles.resizeHandle} ${styles.topMiddle}`}
-                                     onMouseDown={(event) => handleResizeMouseDown(event, SlideElement.id, 'top-middle')}
+                                <div className={`${styles.resizeHandle} ${styles.middleTop}`}
+                                     onMouseDown={(event) => handleResizeMouseDown(event, SlideElement.id, 'middle-top')}
                                      style={{
                                          position: 'absolute',
                                          top: SlideElement.pos.y - 3,
                                          left: SlideElement.pos.x + SlideElement.size.width / 2
                                      }}/>
-                                <div className={`${styles.resizeHandle} ${styles.bottomMiddle}`}
-                                     onMouseDown={(event) => handleResizeMouseDown(event, SlideElement.id, 'bottom-middle')}
+                                <div className={`${styles.resizeHandle} ${styles.middleBottom}`}
+                                     onMouseDown={(event) => handleResizeMouseDown(event, SlideElement.id, 'middle-bottom')}
                                      style={{
                                          position: 'absolute',
                                          top: SlideElement.pos.y + SlideElement.size.height - 3,
