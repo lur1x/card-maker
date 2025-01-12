@@ -12,26 +12,24 @@ function TopPanel() {
     const onTitleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
         const newValue = event.target.value;
         setInputValue(newValue);
-        dispatch(renamePresentationTitle, newValue);// Вызовите dispatch с новым заголовком
+        dispatch(renamePresentationTitle, newValue);
     };
 
     React.useEffect(() => {
-        // Обновляем ширину текстового поля, основываясь на содержимом
         if (inputRef.current) {
             const tempSpan = document.createElement("span");
             tempSpan.style.visibility = "hidden";
-            tempSpan.style.whiteSpace = "pre"; // Учитываем пробелы
-            tempSpan.innerText = inputValue || " "; // Добавляем пробел для минимальной ширины
+            tempSpan.style.whiteSpace = "pre";
+            tempSpan.innerText = inputValue || " ";
             document.body.appendChild(tempSpan);
-            const width = tempSpan.offsetWidth; // Получаем ширину текста
+            const width = tempSpan.offsetWidth;
             document.body.removeChild(tempSpan);
             if (inputRef.current) {
-                inputRef.current.style.width = `${width + 7}px`; // Устанавливаем ширину инпута
+                inputRef.current.style.width = `${width + 7}px`;
             }
         }
     }, [inputValue]);
 
-    // Обновите значение inputValue при изменении заголовка
     React.useEffect(() => {
         setInputValue(title);
     }, [title]);
@@ -42,9 +40,9 @@ function TopPanel() {
                 ref={inputRef}
                 className={styles.title}
                 type="text"
-                value={inputValue} // Изменяем `defaultValue` на `value`
+                value={inputValue}
                 onChange={onTitleChange}
-                style={{ transition: "width 0.2s ease" }} // Плавное изменение ширины
+                style={{ transition: "width 0.2s ease" }}
                 maxLength={45}
             />
         </div>

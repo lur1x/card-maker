@@ -7,7 +7,7 @@ function exportPresentation() {
         const editor = loadFromLocalStorage();
 
         if (!editor) {
-            throw new Error("Нет сохранённого состояния для экспорта.");
+            throw new Error("There is no saved state to export.");
         }
         const dataStr = JSON.stringify(editor, null, 2);
         const blob = new Blob([dataStr], { type: "application/json" });
@@ -20,10 +20,10 @@ function exportPresentation() {
 
         URL.revokeObjectURL(url);
 
-        console.log("Экспортировано состояние из localStorage:", editor);
+        console.log("Exported state from localStorage:", editor);
     }
     catch (error) {
-        console.error("Ошибка при экспорте презентации:", error);
+        console.error("Error exporting presentation:", error);
     }
 }
 
